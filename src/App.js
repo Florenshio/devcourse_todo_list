@@ -1,16 +1,9 @@
 import './App.css';
+import LoginPage from './login-page';
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-          Learn React
-      </header>
-    </div>
-  );
+  return <LoginPage />;
+
 }
 
 export default App;
