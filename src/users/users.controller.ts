@@ -4,10 +4,14 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { LoginUserDto } from './dto/login-user.dto';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { GetUser } from '../auth/decorators/get-user.decorator';
+import { UsersService } from './user/user.service';
 
 @ApiTags('users')
 @Controller('users')
 export class UsersController {
+
+  constructor(private readonly userService: UsersService) {}
+  
   @ApiOperation({ summary: '회원가입', description: '새로운 사용자 계정 생성' })
   @ApiResponse({
     status: 201,
@@ -22,7 +26,7 @@ export class UsersController {
   })
   @Post('register')
   register(@Body() createUserDto: CreateUserDto) {
-    return { message: 'This action registers a new user' };
+    return { message: 'This action logs in a user' };
   }
 
   @ApiOperation({ summary: '로그인', description: '사용자 인증 및 토큰 발급' })
