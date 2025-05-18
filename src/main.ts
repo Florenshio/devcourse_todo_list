@@ -27,7 +27,7 @@ async function bootstrap() {
     .addTag('users', '사용자 관리 API')
     .addTag('teams', '팀 관리 API')
     .addTag('tasks', '할 일 관리 API')
-    .addTag('actions', '액션 로그 API')
+    // .addTag('actions', '액션 로그 API')
     .addBearerAuth(
       {
         type: 'http',
