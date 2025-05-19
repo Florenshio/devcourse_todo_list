@@ -37,6 +37,10 @@ const LoginPage = () => {
     }
   };
 
+  const handleSignupClick = () => {
+    navigate("/signup");
+  };
+
   return (
     <div className="login-container">
       <div className="login-card">
@@ -49,7 +53,9 @@ const LoginPage = () => {
               setuser_id(e.target.value);
               setError(false);
             }}
-            className={`login-input ${error ? "error" : ""}`}
+            className={`login-input text-field-placeholder${
+              error ? " error" : ""
+            }`}
           />
           <input
             type="password"
@@ -59,17 +65,26 @@ const LoginPage = () => {
               setPassword(e.target.value);
               setError(false);
             }}
-            className={`login-input ${error ? "error" : ""}`}
+            className={`login-input text-field-placeholder${
+              error ? " error" : ""
+            }`}
           />
           {error && (
             <p className="error-message">아이디와 비밀번호를 확인해주세요</p>
           )}
-          <button type="submit" className="login-button login-button-primary">
+          <button
+            className="btn-gray-filled login-button-primary"
+            type="submit"
+          >
             로그인
           </button>
-          <Link to="/signup" className="login-button login-button-secondary">
+          <button
+            className="btn-gray-outlined login-button-secondary"
+            type="button"
+            onClick={handleSignupClick}
+          >
             회원가입
-          </Link>
+          </button>
         </form>
       </div>
     </div>

@@ -77,7 +77,9 @@ const SignupPage = () => {
               setError(false);
               setErrorMessage("");
             }}
-            className={`login-input ${error ? "error" : ""}`}
+            className={`login-input text-field-placeholder${
+              error ? " error" : ""
+            }`}
           />
           <input
             type="password"
@@ -88,7 +90,9 @@ const SignupPage = () => {
               setError(false);
               setErrorMessage("");
             }}
-            className={`login-input ${error ? "error" : ""}`}
+            className={`login-input text-field-placeholder${
+              error ? " error" : ""
+            }`}
           />
           <input
             type="password"
@@ -99,10 +103,15 @@ const SignupPage = () => {
               setError(false);
               setErrorMessage("");
             }}
-            className={`login-input ${error ? "error" : ""}`}
+            className={`login-input text-field-placeholder${
+              error ? " error" : ""
+            }`}
           />
           {error && <p className="error-message">{errorMessage}</p>}
-          <button type="submit" className="login-button login-button-primary">
+          <button
+            className="btn-gray-filled login-button-primary"
+            type="submit"
+          >
             회원가입
           </button>
         </form>
