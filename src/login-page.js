@@ -3,11 +3,11 @@ import { Link } from 'react-router-dom';
 import './index.css';
 
 const LoginPage = () => {
-  const [userId, setUserId] = useState('');
+  const [user_id, setuser_id] = useState('');
   const [password, setPassword] = useState('');
 
   const handleLogin = () => {
-    alert(`로그인 시도: ID - ${userId}, 비밀번호 - ${password}`);
+    alert(`로그인 시도: ID - ${user_id}, 비밀번호 - ${password}`);
   };
 
   return (
@@ -16,8 +16,8 @@ const LoginPage = () => {
         <h1 className="login-title">로그인</h1>
           <input
             placeholder="아이디를 입력해주세요."
-            value={userId}
-            onChange={(e) => setUserId(e.target.value)}
+            value={user_id}
+            onChange={(e) => setuser_id(e.target.value)}
             className="login-input"
           />
           <input
