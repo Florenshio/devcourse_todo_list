@@ -1,19 +1,20 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
-import axios from "axios";
+import { Link, useNavigate } from "react-router-dom";
+import api from "./api/axios";
 import "./index.css";
 
 const LoginPage = () => {
   const [user_id, setuser_id] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(false);
+  const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
 
     try {
       console.log("로그인 시도:", { user_id, password });
-      const response = await axios.post("http://localhost:3000/api/login", {
+      const response = await api.post("/api/login", {
         user_id,
         password,
       });
@@ -22,7 +23,9 @@ const LoginPage = () => {
 
       if (response.data.success) {
         setError(false);
+        // JWT 토큰은 쿠키에 자동으로 저장됨
         alert("로그인 성공!");
+        navigate("/todo"); // 로그인 성공 후 todo 페이지로 이동
       } else {
         setError(true);
         alert("로그인 실패: " + response.data.message);
