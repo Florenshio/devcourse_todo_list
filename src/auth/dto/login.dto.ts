@@ -1,14 +1,14 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, IsString, MinLength } from 'class-validator';
+import { IsNotEmpty, IsString } from 'class-validator';
 
-export class CreateUserDto {
+export class LoginDto {
   @ApiProperty({
-    description: '사용자 이름',
+    description: '사용자 아이디',
     example: '사용자이름',
     required: true,
   })
-  @IsNotEmpty({ message: '사용자 이름은 필수입니다.' })
-  @IsString({ message: '사용자 이름은 문자열이어야 합니다.' })
+  @IsNotEmpty({ message: '사용자 아이디는 필수입니다.' })
+  @IsString({ message: '사용자 아이디는 문자열이어야 합니다.' })
   user_id: string;
 
   @ApiProperty({
@@ -18,6 +18,5 @@ export class CreateUserDto {
   })
   @IsNotEmpty({ message: '비밀번호는 필수입니다.' })
   @IsString({ message: '비밀번호는 문자열이어야 합니다.' })
-  @MinLength(6, { message: '비밀번호는 최소 6자 이상이어야 합니다.' })
   password: string;
 }
