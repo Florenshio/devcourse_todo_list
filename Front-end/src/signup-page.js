@@ -108,10 +108,7 @@ const SignupPage = () => {
             }`}
           />
           {error && <p className="error-message">{errorMessage}</p>}
-          <button
-            className="btn-gray-filled login-button-primary"
-            type="submit"
-          >
+          <button className="btn-gray-filled signup-button " type="submit">
             회원가입
           </button>
         </form>

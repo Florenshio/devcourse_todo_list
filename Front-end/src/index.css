@@ -24,14 +24,11 @@ body {
   line-height: 150%;
   cursor: pointer;
   border: none;
+  background: #0f172a;
+  color: #fff;
 }
 
 .btn-gray-filled:hover {
-  display: inline-flex;
-  padding: 8px 16px;
-  justify-content: center;
-  align-items: center;
-  border-radius: var(--Corner-Extra-small, 4px);
   background: rgba(15, 23, 42, 0.8);
 }
 
@@ -48,23 +45,13 @@ body {
   font-size: 16px;
   font-style: normal;
   font-weight: 400;
-  line-height: 150%; /* 24px */
+  line-height: 150%;
+  cursor: pointer;
 }
 
 .btn-gray-outlined:hover {
-  display: inline-flex;
-  padding: 8px 16px;
-  justify-content: center;
-  align-items: center;
-  border-radius: var(--Corner-Extra-small, 4px);
-  border: 1px solid #94a3b8;
   background: #94a3b8;
   color: #fff;
-  font-family: Pretendard;
-  font-size: 16px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 150%; /* 24px */
 }
 
 /* 공통 텍스트필드 스타일 */
@@ -79,38 +66,20 @@ body {
   font-size: 16px;
   font-style: normal;
   font-weight: 400;
-  line-height: 150%; /* 24px */
+  line-height: 150%;
 }
 
 .text-field-placeholder:focus {
-  display: flex;
-  padding: 8px 16px;
-  align-items: center;
-  border-radius: var(--Corner-Extra-small, 4px);
   border: 1px solid #0f172a;
   color: #0f172a;
-  font-family: Pretendard;
-  font-size: 16px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 150%; /* 24px */
 }
 
 .text-field-placeholder.error {
-  display: flex;
-  padding: 8px 16px;
-  align-items: center;
-  border-radius: var(--Corner-Extra-small, 4px);
   border: 1px solid #ef4444;
   color: #0f172a;
-  font-family: Pretendard;
-  font-size: 16px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 150%; /* 24px */
 }
 
-/* 로그인 페이지 레이아웃 */
+/* 로그인/회원가입 페이지 레이아웃 */
 .login-container {
   display: flex;
   width: var(--sds-responsive-device-width);
@@ -177,24 +146,10 @@ body {
   align-self: stretch;
 }
 
-.login-button-primary {
-  background: #0f172a;
-  color: #fff;
-}
-.login-button-primary:hover {
-  background: rgba(15, 23, 42, 0.8);
-}
-
-.login-button-secondary {
+.signup-button {
   border: 1px solid #94a3b8;
-  color: #0f172a;
   font-weight: 400;
   text-decoration: none;
-}
-.login-button-secondary:hover {
-  border: 1px solid #94a3b8;
-  background: #94a3b8;
-  color: #fff;
 }
 
 /* todo 페이지 레이아웃 */
@@ -240,7 +195,7 @@ body {
   font-size: 16px;
   font-style: normal;
   font-weight: 700;
-  line-height: 150%; /* 24px */
+  line-height: 150%;
   border-radius: var(--Corner-Extra-small, 4px);
   background: #e2e8f0;
 }
@@ -254,12 +209,8 @@ body {
 }
 
 .todo-divider {
-  display: flex;
   width: 1px;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 8px;
-  align-self: stretch;
+  height: 1024px;
   background: #e2e8f0;
 }
 
@@ -267,14 +218,14 @@ body {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 20px;
+  gap: 24px;
   flex: 1 0 0;
 }
 
 .todo-input-row {
   display: flex;
   align-items: center;
-  gap: 20px;
+  gap: 8px;
   align-self: stretch;
 }
 
@@ -286,7 +237,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 40px;
+  gap: 24px;
   align-self: stretch;
 }
 
@@ -294,94 +245,59 @@ body {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 10px;
+  gap: 16px;
   align-self: stretch;
 }
 
-.todo-add-btn {
-  background: #0f172a;
-  color: #fff;
-}
-.todo-add-btn:hover {
-  background: #334155;
-}
-
 .todo-main-title {
-  color: #1e293b;
+  color: #0f172a;
   font-family: Pretendard;
-  font-size: 24px;
+  font-size: 20px;
   font-style: normal;
   font-weight: 700;
-  line-height: 150%; /* 36px */
+  line-height: 150%;
 }
 
 .done-list {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 10px;
+  gap: 16px;
   align-self: stretch;
 }
 
 .todo-item-row {
   display: flex;
+  padding: 8px 16px;
   align-items: center;
   gap: 8px;
-  margin-bottom: 8px;
-  background: #fff;
-  border-radius: 4px;
-  padding: 8px 12px;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
+  align-self: stretch;
+  border-radius: var(--Corner-Extra-small, 4px);
+  background: #f8fafc;
 }
-.todo-item-row input[type="checkbox"] {
-  accent-color: #0f172a;
-}
+
 .todo-item-text {
-  flex: 1;
-  font-size: 16px;
-}
-.todo-item-text.done {
-  text-decoration: line-through;
-  color: #64748b;
-}
-.todo-edit-btn,
-.todo-delete-btn,
-.todo-save-btn,
-.todo-cancel-btn {
-  padding: 4px 10px;
-  border: none;
-  border-radius: 4px;
-  font-size: 14px;
-  cursor: pointer;
-  margin-left: 2px;
-  transition: background 0.2s;
-}
-.todo-edit-btn {
-  background: #f1f5f9;
+  flex: 1 0 0;
   color: #0f172a;
+  font-family: Pretendard;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 150%;
 }
-.todo-edit-btn:hover {
-  background: #e2e8f0;
+
+.todo-item-text.done {
+  color: #94a3b8;
+  text-decoration: line-through;
 }
-.todo-delete-btn {
-  background: #fff1f2;
-  color: #ef4444;
-  border: 1px solid #fecaca;
-}
-.todo-delete-btn:hover {
-  background: #fee2e2;
-}
-.todo-save-btn {
-  background: #0f172a;
-  color: #fff;
-}
-.todo-save-btn:hover {
-  background: #334155;
-}
-.todo-cancel-btn {
-  background: #f1f5f9;
-  color: #64748b;
-}
-.todo-cancel-btn:hover {
-  background: #e2e8f0;
+
+.todo-empty-text,
+.done-empty-text {
+  color: #94a3b8;
+  font-family: Pretendard;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 150%;
+  padding: 8px 16px;
 }

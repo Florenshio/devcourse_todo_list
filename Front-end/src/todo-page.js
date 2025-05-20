@@ -1,48 +1,55 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import "./index.css";
 
 function TodoPage() {
   const [todoInput, setTodoInput] = useState("");
-  const [todos, setTodos] = useState([]);
+  // TODO: 백엔드 연동 시 아래 임시 데이터를 빈 배열로 변경
+  // const [todos, setTodos] = useState([]);
+  const [todos, setTodos] = useState([
+    { id: 1, title: "리액트 공부하기", done: false },
+    { id: 2, title: "타입스크립트 공부하기", done: false },
+    { id: 3, title: "백엔드 API 연동하기", done: true },
+    { id: 4, title: "CSS 스타일링 완성하기", done: true },
+  ]);
   const [editId, setEditId] = useState(null);
   const [editInput, setEditInput] = useState("");
 
-  const handleAddTodo = () => {
+  // 할 일 목록 가져오기
+  const fetchTodos = async () => {
+    try {
+      const response = await axios.get("/api/todos");
+      setTodos(response.data);
+      console.log("서버에서 할 일 목록을 가져옵니다.");
+    } catch (error) {
+      console.error("할 일 목록을 가져오는 중 오류 발생:", error);
+    }
+  };
+
+  // 컴포넌트 마운트 시 할 일 목록 가져오기
+  useEffect(() => {
+    fetchTodos();
+  }, []);
+
+  const handleAddTodo = async () => {
     if (!todoInput.trim()) return;
-    setTodos([...todos, { id: Date.now(), text: todoInput, done: false }]);
-    setTodoInput("");
-  };
 
-  const handleDelete = (id) => {
-    setTodos(todos.filter((todo) => todo.id !== id));
-  };
-
-  const handleToggle = (id) => {
-    setTodos(
-      todos.map((todo) =>
-        todo.id === id ? { ...todo, done: !todo.done } : todo
-      )
-    );
-  };
-
-  const handleEdit = (id, text) => {
-    setEditId(id);
-    setEditInput(text);
-  };
-
-  const handleEditSave = (id) => {
-    setTodos(
-      todos.map((todo) =>
-        todo.id === id ? { ...todo, text: editInput } : todo
-      )
-    );
-    setEditId(null);
-    setEditInput("");
-  };
-
-  const handleEditCancel = () => {
-    setEditId(null);
-    setEditInput("");
+    try {
+      // TODO: 백엔드 연동 시 아래 주석을 해제하고 임시 코드를 제거
+      await axios.post("/api/todos", {
+        title: todoInput,
+      });
+      const newTodo = {
+        id: Date.now(),
+        title: todoInput,
+        done: false,
+      };
+      setTodos([...todos, newTodo]);
+      setTodoInput("");
+      console.log("새로운 할 일이 추가되었습니다.");
+    } catch (error) {
+      console.error("할 일 추가 중 오류 발생:", error);
+    }
   };
 
   return (
@@ -52,7 +59,7 @@ function TodoPage() {
         <div className="todo-sidebar">
           <div className="todo-menu">
             <div className="todo-menu-itm">할 일 목록</div>
-            <button className="todo-sidebar-btn btn-gray-outlined ">
+            <button className="todo-sidebar-btn btn-gray-outlined">
               팀 만들기
             </button>
           </div>
@@ -85,50 +92,7 @@ function TodoPage() {
                   .filter((todo) => !todo.done)
                   .map((todo) => (
                     <div key={todo.id} className="todo-item-row">
-                      <input
-                        type="checkbox"
-                        checked={todo.done}
-                        onChange={() => handleToggle(todo.id)}
-                      />
-                      {editId === todo.id ? (
-                        <>
-                          <input
-                            type="text"
-                            value={editInput}
-                            onChange={(e) => setEditInput(e.target.value)}
-                            className="todo-input text-field-placeholder"
-                            style={{ flex: 1, padding: 4 }}
-                          />
-                          <button
-                            className="btn-gray-filled todo-save-btn"
-                            onClick={() => handleEditSave(todo.id)}
-                          >
-                            완료
-                          </button>
-                          <button
-                            className="btn-gray-outlined todo-cancel-btn"
-                            onClick={handleEditCancel}
-                          >
-                            취소
-                          </button>
-                        </>
-                      ) : (
-                        <>
-                          <span className="todo-item-text">{todo.text}</span>
-                          <button
-                            className="todo-edit-btn"
-                            onClick={() => handleEdit(todo.id, todo.text)}
-                          >
-                            수정
-                          </button>
-                          <button
-                            className="todo-delete-btn"
-                            onClick={() => handleDelete(todo.id)}
-                          >
-                            삭제
-                          </button>
-                        </>
-                      )}
+                      <span className="todo-item-text">{todo.title}</span>
                     </div>
                   ))
               )}
@@ -142,18 +106,7 @@ function TodoPage() {
                   .filter((todo) => todo.done)
                   .map((todo) => (
                     <div key={todo.id} className="todo-item-row">
-                      <input
-                        type="checkbox"
-                        checked={todo.done}
-                        onChange={() => handleToggle(todo.id)}
-                      />
-                      <span className="todo-item-text done">{todo.text}</span>
-                      <button
-                        className="todo-delete-btn"
-                        onClick={() => handleDelete(todo.id)}
-                      >
-                        삭제
-                      </button>
+                      <span className="todo-item-text done">{todo.title}</span>
                     </div>
                   ))
               )}

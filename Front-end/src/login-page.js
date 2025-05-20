@@ -72,14 +72,11 @@ const LoginPage = () => {
           {error && (
             <p className="error-message">아이디와 비밀번호를 확인해주세요</p>
           )}
-          <button
-            className="btn-gray-filled login-button-primary"
-            type="submit"
-          >
+          <button className="btn-gray-filled login-button" type="submit">
             로그인
           </button>
           <button
-            className="btn-gray-outlined login-button-secondary"
+            className="signup-button btn-gray-outlined"
             type="button"
             onClick={handleSignupClick}
           >
