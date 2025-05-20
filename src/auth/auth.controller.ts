@@ -3,7 +3,6 @@ import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { AuthService } from './auth.service';
 import { LoginDto } from './dto/login.dto';
 import { Response } from 'express';
-import { TreeLevelColumn } from 'typeorm';
 
 @ApiTags('authentification')
 @Controller('auth')
@@ -37,8 +36,8 @@ export class AuthController {
     res.cookie('access_token', result.access_token, {
       httpOnly: true,
       maxAge: 5 * 60 * 1000, // 5분
-      sameSite: 'strict', // CSRF 공격 방지
-      secure: true, // https 사용 권장
+      sameSite: 'lax', // CSRF 공격 방지하려면 'strict'
+      secure: false, // 실제 production 환경에서는 https 사용 권장
     });
 
     return { user: result.user };

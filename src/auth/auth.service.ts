@@ -27,7 +27,7 @@ export class AuthService {
     }
     
     // JWT 토큰 생성
-    const payload = { user_id: user.user_id, sub: user.id };
+    const payload = { id: user.id, user_id: user.user_id };
     return {
       access_token: this.jwtService.sign(payload),
       user: {

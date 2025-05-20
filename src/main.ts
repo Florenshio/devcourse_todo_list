@@ -18,7 +18,10 @@ async function bootstrap() {
   }));
   
   // CORS 설정
-  app.enableCors();
+  app.enableCors({
+    origin: true,
+    credentials: true
+  });
   
   // API 접두사 설정
   app.setGlobalPrefix('api');
