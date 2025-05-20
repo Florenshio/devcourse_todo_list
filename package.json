@@ -1,0 +1,20 @@
+{
+    "name": "devcourse_todo_list",
+    "version": "1.0.0",
+    "private": true,
+    "workspaces": [
+      "Back-end",
+      "Front-end"
+    ],
+    "scripts": {
+      "start:backend": "cd Back-end && npm run start:dev",
+      "start:frontend": "cd Front-end && npm start",
+      "dev": "concurrently \"npm run start:backend\" \"npm run start:frontend\"",
+      "install:all": "npm install && npm run install:backend && npm run install:frontend",
+      "install:backend": "cd Back-end && npm install",
+      "install:frontend": "cd Front-end && npm install"
+    },
+    "devDependencies": {
+      "concurrently": "^8.2.0"
+    }
+  }

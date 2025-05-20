@@ -1,6 +1,6 @@
 # compiled output
 /dist
-/node_modules
+node_modules
 /build
 
 # Logs
@@ -70,7 +70,6 @@ report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 # dependencies
-/node_modules
 /.pnp
 .pnp.js
 
