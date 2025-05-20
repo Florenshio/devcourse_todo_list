@@ -51,7 +51,7 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api-docs', app, document);
   
-  await app.listen(process.env.PORT ?? 3000);
+  await app.listen(process.env.PORT ?? 3003);
   console.log(`애플리케이션이 실행 중입니다: ${await app.getUrl()}`);
   console.log(`Swagger 문서: ${await app.getUrl()}/api-docs`);
 }
