@@ -39,7 +39,7 @@ const SignupPage = () => {
 
       const response = await axios({
         method: "post",
-        url: "http://localhost:3000/api/signup",
+        url: "http://localhost:3003/api/users/register", // 실제 백엔드에 설정된 엔드포인트로 설정
         data: data,
         headers: {
           "Content-Type": "application/json",
@@ -48,7 +48,8 @@ const SignupPage = () => {
 
       console.log("서버 응답:", response.data);
 
-      if (response.data.success) {
+      // if (response.data.success) {
+      if (response.status === 201) {
         setError(false);
         setErrorMessage("");
         alert("회원가입 성공!");

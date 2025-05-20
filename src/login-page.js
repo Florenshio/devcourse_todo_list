@@ -14,14 +14,15 @@ const LoginPage = () => {
 
     try {
       console.log("로그인 시도:", { user_id, password });
-      const response = await api.post("/api/login", {
+      const response = await api.post("/api/auth/login", {
         user_id,
         password,
       });
 
       console.log("서버 응답:", response.data);
 
-      if (response.data.success) {
+      // if (response.data.success) {
+      if (response.status === 200) {
         setError(false);
         // JWT 토큰은 쿠키에 자동으로 저장됨
         alert("로그인 성공!");
