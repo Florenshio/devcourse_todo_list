@@ -52,6 +52,23 @@ function TodoPage() {
     }
   };
 
+  const handleToggle = (id) => {
+    const updatedTodos = todos.map((todo) =>
+      todo.id === id ? { ...todo, done: !todo.done } : todo
+    );
+    setTodos(updatedTodos);
+  };
+
+  const handleEdit = (id, title) => {
+    setEditId(id);
+    setEditInput(title);
+  };
+
+  const handleDelete = (id) => {
+    const updatedTodos = todos.filter((todo) => todo.id !== id);
+    setTodos(updatedTodos);
+  };
+
   return (
     <div className="todo-layout">
       <div className="todo-page">
@@ -91,8 +108,29 @@ function TodoPage() {
                 todos
                   .filter((todo) => !todo.done)
                   .map((todo) => (
-                    <div key={todo.id} className="todo-item-row">
-                      <span className="todo-item-text">{todo.title}</span>
+                    <div key={todo.id} className="todo-item">
+                      <div className="todo-checkfield">
+                        <input
+                          type="checkbox"
+                          checked={todo.done}
+                          onChange={() => handleToggle(todo.id)}
+                        />
+                        <span className="todo-item-text">{todo.title}</span>
+                      </div>
+                      <div className="todo-btn">
+                        <button
+                          className="todo-edit-btn btn-gray-outlined"
+                          onClick={() => handleEdit(todo.id, todo.title)}
+                        >
+                          수정
+                        </button>
+                        <button
+                          className="todo-delete-btn btn-red-outlined"
+                          onClick={() => handleDelete(todo.id)}
+                        >
+                          삭제
+                        </button>
+                      </div>
                     </div>
                   ))
               )}
@@ -105,8 +143,19 @@ function TodoPage() {
                 todos
                   .filter((todo) => todo.done)
                   .map((todo) => (
-                    <div key={todo.id} className="todo-item-row">
+                    <div key={todo.id} className="todo-item">
+                      <input
+                        type="checkbox"
+                        checked={todo.done}
+                        onChange={() => handleToggle(todo.id)}
+                      />
                       <span className="todo-item-text done">{todo.title}</span>
+                      <button
+                        className="todo-delete-btn btn-red-outlined "
+                        onClick={() => handleDelete(todo.id)}
+                      >
+                        삭제
+                      </button>
                     </div>
                   ))
               )}
