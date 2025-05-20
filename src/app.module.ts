@@ -1,13 +1,12 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { UsersController } from './users/users.controller';
 import { TeamsController } from './teams/teams.controller';
-import { TasksController } from './tasks/tasks.controller';
 import { AuthModule } from './auth/auth.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
 import { UsersModule } from './users/user/user.module';
+import { TasksModule } from './tasks/tasks.module';
 
 @Module({
   imports: [
@@ -23,11 +22,11 @@ import { UsersModule } from './users/user/user.module';
       synchronize: true, // 개발 환경에서만 true로 설정
     }),
     UsersModule,
+    TasksModule,
     AuthModule],
   controllers: [
     AppController,
-    TeamsController,
-    TasksController,
+    TeamsController
   ],
   providers: [AppService],
 })
