@@ -3,7 +3,7 @@ import { CreateTaskDto } from '../dto/create-task.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Task, TaskStatus } from '../entities/task.entity';
-import { JwtPayload } from 'Back-end/src/common/interface/jwt-payload.interface';
+import { JwtPayload } from '../../common/interface/jwt-payload.interface';
 import { UpdateTaskStatusDto } from '../dto/update-task-status.dto';
 import { UpdateTaskDto } from '../dto/update-task.dto';
 

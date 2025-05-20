@@ -6,7 +6,7 @@ import { UpdateTaskStatusDto } from './dto/update-task-status.dto';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { GetUser } from '../auth/decorators/get-user.decorator';
 import { TaskService } from './task/task.service';
-import { JwtPayload } from 'Back-end/src/common/interface/jwt-payload.interface';
+import { JwtPayload } from '../common/interface/jwt-payload.interface';
 import { TaskStatus } from './entities/task.entity';
 
 @ApiTags('tasks')
