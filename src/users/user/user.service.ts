@@ -40,7 +40,7 @@ export class UsersService {
     }
     
     /* 로그인한 사용자 정보 조회 */
-    // 고도화 필요
+    // 요구사항 X
     async getUserLogined(user: object): Promise<object | null> {
         return user;
     }
