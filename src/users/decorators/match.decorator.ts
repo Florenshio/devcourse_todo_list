@@ -32,3 +32,10 @@ export function Match(property: string, validationOptions?: ValidationOptions) {
     });
   };
 }
+
+/* ValidationArguments 인터페이스는 다음과 같은 속성을 포함 */
+// constraints: 데코레이터에 전달된 제약 조건 배열 (예: ['password'])
+// object: 검증 중인 객체 (예: CreateUserDto 인스턴스)
+// property: 현재 검증 중인 속성 이름 (예: 'repassword')
+// targetName: 대상 클래스 이름
+// value: 검증 중인 값 (첫 번째 매개변수와 동일)
