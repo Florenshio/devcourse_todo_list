@@ -126,29 +126,4 @@ export class TasksController {
     await this.taskService.removeTask(user, task_id);
     return;
   }
-
-  // @ApiOperation({ summary: '할 일 액션 로그 조회', description: '특정 할 일에 대한 액션 기록 조회' })
-  // @ApiParam({ name: 'task_id', description: '할 일 ID' })
-  // @ApiResponse({
-  //   status: 200,
-  //   description: '할 일 액션 로그 조회 성공',
-  //   schema: {
-  //     example: [
-  //       {
-  //         id: 1,
-  //         task_id: 1,
-  //         action_type: 'edit',
-  //         performed_by: 1,
-  //         performed_at: '2025-05-13T11:15:15+09:00',
-  //         user: {
-  //           username: '사용자이름',
-  //         },
-  //       },
-  //     ],
-  //   },
-  // })
-  // @Get(':task_id/actions')
-  // findTaskActions(@Param('task_id') taskId: string) {
-  //   return { message: `This action returns actions for task ${taskId}` };
-  // }
 }
