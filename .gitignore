@@ -19,6 +19,7 @@ desktop.ini
 # Tests
 /coverage
 /.nyc_output
+swagger-spec.json
 
 # IDEs and editors
 /.idea
