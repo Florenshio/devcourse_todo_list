@@ -27,22 +27,4 @@ export class UsersController {
   register(@Body() createUserDto: CreateUserDto) {
     return this.userService.register(createUserDto);
   }
-
-  @ApiOperation({ summary: '사용자 정보 조회', description: '현재 로그인한 사용자 정보 조회' })
-  @ApiResponse({
-    status: 200,
-    description: '사용자 정보 조회 성공',
-    schema: {
-      example: {
-        id: 1,
-        username: '사용자이름',
-      },
-    },
-  })
-  @ApiBearerAuth('access-token')
-  @UseGuards(JwtAuthGuard)
-  @Get('me')
-  async getProfile(@GetUser() user: any) {
-    return this.userService.getUserLogined(user);
-  }
 }
