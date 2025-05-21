@@ -7,10 +7,34 @@ function TodoPage() {
   // TODO: 백엔드 연동 시 아래 임시 데이터를 빈 배열로 변경
   // const [todos, setTodos] = useState([]);
   const [todos, setTodos] = useState([
-    { id: 1, title: "리액트 공부하기", done: false },
-    { id: 2, title: "타입스크립트 공부하기", done: false },
-    { id: 3, title: "백엔드 API 연동하기", done: true },
-    { id: 4, title: "CSS 스타일링 완성하기", done: true },
+    {
+      id: 1,
+      title: "리액트 공부하기",
+      status: "todo",
+      created_by: 1,
+      team_id: 1,
+    },
+    {
+      id: 2,
+      title: "타입스크립트 공부하기",
+      status: "todo",
+      created_by: 1,
+      team_id: 1,
+    },
+    {
+      id: 3,
+      title: "백엔드 API 연동하기",
+      status: "done",
+      created_by: 1,
+      team_id: 1,
+    },
+    {
+      id: 4,
+      title: "CSS 스타일링 완성하기",
+      status: "done",
+      created_by: 1,
+      team_id: 1,
+    },
   ]);
   const [editId, setEditId] = useState(null);
   const [editInput, setEditInput] = useState("");
@@ -18,7 +42,7 @@ function TodoPage() {
   // 할 일 목록 가져오기
   const fetchTodos = async () => {
     try {
-      const response = await axios.get("/api/todos");
+      const response = await axios.get("/api/tasks");
       setTodos(response.data);
       console.log("서버에서 할 일 목록을 가져옵니다.");
     } catch (error) {
@@ -31,19 +55,18 @@ function TodoPage() {
     fetchTodos();
   }, []);
 
+  // 할일 생성
   const handleAddTodo = async () => {
     if (!todoInput.trim()) return;
 
     try {
-      await axios.post("/api/todos", {
+      const response = await axios.post("/api/tasks", {
         title: todoInput,
+        team_id: 1, // TODO: 실제 팀 ID로 변경 필요
       });
-      const newTodo = {
-        id: Date.now(),
-        title: todoInput,
-        done: false,
-      };
-      setTodos([...todos, newTodo]);
+
+      // 서버에서 받은 응답으로 새로운 할일 추가
+      setTodos([...todos, response.data]);
       setTodoInput("");
       console.log("새로운 할 일이 추가되었습니다.");
     } catch (error) {
@@ -53,7 +76,9 @@ function TodoPage() {
 
   const handleToggle = (id) => {
     const updatedTodos = todos.map((todo) =>
-      todo.id === id ? { ...todo, done: !todo.done } : todo
+      todo.id === id
+        ? { ...todo, status: todo.status === "todo" ? "done" : "todo" }
+        : todo
     );
     setTodos(updatedTodos);
   };
@@ -101,17 +126,17 @@ function TodoPage() {
           <div className="todo-group">
             <div className="todo-list">
               <div className="todo-main-title">TO DO</div>
-              {todos.filter((todo) => !todo.done).length === 0 ? (
+              {todos.filter((todo) => todo.status === "todo").length === 0 ? (
                 <div className="todo-empty-text">할 일 항목이 없습니다</div>
               ) : (
                 todos
-                  .filter((todo) => !todo.done)
+                  .filter((todo) => todo.status === "todo")
                   .map((todo) => (
                     <div key={todo.id} className="todo-item">
                       <div className="todo-checkfield">
                         <input
                           type="checkbox"
-                          checked={todo.done}
+                          checked={todo.status === "done"}
                           onChange={() => handleToggle(todo.id)}
                         />
                         <span className="todo-item-text">{todo.title}</span>
@@ -136,17 +161,17 @@ function TodoPage() {
             </div>
             <div className="done-list">
               <div className="todo-main-title">DONE</div>
-              {todos.filter((todo) => todo.done).length === 0 ? (
+              {todos.filter((todo) => todo.status === "done").length === 0 ? (
                 <div className="done-empty-text">완료 항목이 없습니다</div>
               ) : (
                 todos
-                  .filter((todo) => todo.done)
+                  .filter((todo) => todo.status === "done")
                   .map((todo) => (
                     <div key={todo.id} className="todo-item">
                       <div className="todo-checkfield">
                         <input
                           type="checkbox"
-                          checked={todo.done}
+                          checked={todo.status === "done"}
                           onChange={() => handleToggle(todo.id)}
                         />
                         <span className="todo-item-text done">
@@ -154,7 +179,7 @@ function TodoPage() {
                         </span>
                       </div>
                       <button
-                        className="todo-delete-btn btn-red-outlined "
+                        className="todo-delete-btn btn-red-outlined"
                         onClick={() => handleDelete(todo.id)}
                       >
                         삭제
