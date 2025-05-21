@@ -112,6 +112,44 @@ function TodoPage() {
     setEditInput(title);
   };
 
+  const handleUpdate = async (id) => {
+    if (editInput.trim() === "") {
+      console.error("할 일 내용이 비어있습니다.");
+      return;
+    }
+
+    const todo = todos.find((t) => t.id === id);
+    if (todo.title === editInput) {
+      console.log("변경된 내용이 없습니다.");
+      setEditId(null);
+      return;
+    }
+
+    try {
+      const response = await axios.patch(`/api/tasks/${id}`, {
+        title: editInput,
+      });
+
+      if (response.status === 200) {
+        const updatedTodos = todos.map((todo) =>
+          todo.id === id ? { ...todo, title: editInput } : todo
+        );
+        setTodos(updatedTodos);
+        setEditId(null);
+        console.log("할 일 수정 성공");
+      } else {
+        console.error("할 일 수정 실패");
+      }
+    } catch (error) {
+      console.error("할 일 수정 중 오류 발생:", error);
+    }
+  };
+
+  const handleCancel = () => {
+    setEditId(null);
+    setEditInput("");
+  };
+
   // 할일 삭제
   const handleDelete = (id) => {
     const updatedTodos = todos.filter((todo) => todo.id !== id);
@@ -158,28 +196,57 @@ function TodoPage() {
                   .filter((todo) => todo.status === "todo")
                   .map((todo) => (
                     <div key={todo.id} className="todo-item">
-                      <div className="todo-checkfield">
-                        <input
-                          type="checkbox"
-                          checked={todo.status === "done"}
-                          onChange={() => handleToggle(todo.id)}
-                        />
-                        <span className="todo-item-text">{todo.title}</span>
-                      </div>
-                      <div className="todo-btn">
-                        <button
-                          className="todo-edit-btn btn-gray-outlined"
-                          onClick={() => handleEdit(todo.id, todo.title)}
-                        >
-                          수정
-                        </button>
-                        <button
-                          className="todo-delete-btn btn-red-outlined"
-                          onClick={() => handleDelete(todo.id)}
-                        >
-                          삭제
-                        </button>
-                      </div>
+                      {editId === todo.id ? (
+                        // 수정 모드
+                        <div className="todo-item-edit">
+                          <input
+                            type="text"
+                            value={editInput}
+                            onChange={(e) => setEditInput(e.target.value)}
+                            className="todo-edit-input text-field-placeholder"
+                          />
+                          <div className="todo-btn">
+                            <button
+                              className="todo-edit-update-btn btn-gray-filled"
+                              onClick={() => handleUpdate(todo.id)}
+                            >
+                              완료
+                            </button>
+                            <button
+                              className="todo-edit-cancel-btn btn-gray-outlined"
+                              onClick={handleCancel}
+                            >
+                              취소
+                            </button>
+                          </div>
+                        </div>
+                      ) : (
+                        // 일반 모드
+                        <div className="todo-item-normal">
+                          <div className="todo-checkfield">
+                            <input
+                              type="checkbox"
+                              checked={todo.status === "done"}
+                              onChange={() => handleToggle(todo.id)}
+                            />
+                            <span className="todo-item-text">{todo.title}</span>
+                          </div>
+                          <div className="todo-btn">
+                            <button
+                              className="todo-edit-btn btn-gray-outlined"
+                              onClick={() => handleEdit(todo.id, todo.title)}
+                            >
+                              수정
+                            </button>
+                            <button
+                              className="todo-delete-btn btn-red-outlined"
+                              onClick={() => handleDelete(todo.id)}
+                            >
+                              삭제
+                            </button>
+                          </div>
+                        </div>
+                      )}
                     </div>
                   ))
               )}
