@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./index.css";
 
@@ -9,6 +9,7 @@ const SignupPage = () => {
   const [repassword, setRepassword] = useState("");
   const [error, setError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const navigate = useNavigate();
 
   const handleSignup = async (e) => {
     e.preventDefault();
@@ -53,6 +54,7 @@ const SignupPage = () => {
         setError(false);
         setErrorMessage("");
         alert("회원가입 성공!");
+        navigate("/login");
       } else {
         setError(true);
         setErrorMessage(response.data.message || "회원가입에 실패했습니다.");
