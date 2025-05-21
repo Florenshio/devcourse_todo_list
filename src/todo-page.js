@@ -43,10 +43,14 @@ function TodoPage() {
   const fetchTodos = async () => {
     try {
       const response = await axios.get("/api/tasks");
-      setTodos(response.data);
-      console.log("서버에서 할 일 목록을 가져옵니다.");
+      if (response.status === 200) {
+        setTodos(response.data);
+        console.log("할 일 목록 조회 성공");
+      } else {
+        console.error("할 일 목록 조회 실패");
+      }
     } catch (error) {
-      console.error("할 일 목록을 가져오는 중 오류 발생:", error);
+      console.error("할 일 목록 조회 중 오류 발생:", error);
     }
   };
 
@@ -68,7 +72,9 @@ function TodoPage() {
       if (response.status === 201) {
         setTodos([...todos, response.data]);
         setTodoInput("");
-        console.log("새로운 할 일이 추가되었습니다.");
+        console.log("할 일 생성 성공");
+      } else {
+        console.error("할 일 생성 실패");
       }
     } catch (error) {
       console.error("할 일 추가 중 오류 발생:", error);
@@ -91,7 +97,9 @@ function TodoPage() {
           todo.id === id ? { ...todo, status: newStatus } : todo
         );
         setTodos(updatedTodos);
-        console.log("할일 상태가 변경되었습니다.");
+        console.log("할일 상태 변경 성공");
+      } else {
+        console.error("할일 상태 변경 실패");
       }
     } catch (error) {
       console.error("할일 상태 변경 중 오류 발생:", error);
