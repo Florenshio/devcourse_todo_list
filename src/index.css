@@ -371,7 +371,7 @@ body {
   gap: 4px;
 }
 
-/* 모달 스타일 */
+/* 모달 공통 스타일 */
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -402,10 +402,9 @@ body {
   display: flex;
   flex-direction: column;
   width: 100%;
-  gap: 60px;
 }
 
-.modal-content p {
+.modal-title {
   color: #0f172a;
   font-family: Pretendard;
   font-size: 16px;
@@ -418,5 +417,34 @@ body {
 .modal-buttons {
   display: flex;
   justify-content: right;
-  gap: 8px;
+  gap: 4px;
+}
+
+/* 삭제 모달 스타일 */
+.modal-delete .modal-content {
+  display: flex;
+  flex-direction: column;
+  gap: 60px;
+}
+
+/* 팀 만들기 모달 스타일 */
+.modal-team .modal-content {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.modal-team-content {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.modal-team .modal-content input {
+  display: flex;
+  height: 40px;
+  width: 100%;
+  align-items: center;
+  align-self: stretch;
+  box-sizing: border-box;
 }

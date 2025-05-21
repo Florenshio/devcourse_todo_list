@@ -40,6 +40,8 @@ function TodoPage() {
   const [editInput, setEditInput] = useState("");
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [deleteId, setDeleteId] = useState(null);
+  const [showTeamModal, setShowTeamModal] = useState(false);
+  const [teamName, setTeamName] = useState("");
 
   // 할 일 목록 가져오기
   const fetchTodos = async () => {
@@ -183,6 +185,35 @@ function TodoPage() {
     console.log("삭제 취소");
   };
 
+  const handleCreateTeam = async () => {
+    if (!teamName.trim()) {
+      console.error("팀 이름을 입력해주세요.");
+      return;
+    }
+
+    try {
+      const response = await axios.post("/api/teams", {
+        name: teamName,
+      });
+
+      if (response.status === 201) {
+        console.log("팀 생성 성공");
+        setShowTeamModal(false);
+        setTeamName("");
+      } else {
+        console.error("팀 생성 실패");
+      }
+    } catch (error) {
+      console.error("팀 생성 중 오류 발생:", error);
+    }
+  };
+
+  const handleTeamModalClose = () => {
+    setShowTeamModal(false);
+    setTeamName("");
+    console.log("팀 만들기 취소");
+  };
+
   return (
     <div className="todo-layout">
       <div className="todo-page">
@@ -190,7 +221,10 @@ function TodoPage() {
         <div className="todo-sidebar">
           <div className="todo-menu">
             <button className="todo-menu-itm">개인 할 일 목록</button>
-            <button className="todo-sidebar-btn btn-gray-outlined">
+            <button
+              className="todo-sidebar-btn btn-gray-outlined"
+              onClick={() => setShowTeamModal(true)}
+            >
               팀 만들기
             </button>
           </div>
@@ -313,9 +347,9 @@ function TodoPage() {
       {/* 삭제 모달 */}
       {showDeleteModal && (
         <div className="modal-overlay">
-          <div className="modal">
+          <div className="modal modal-delete">
             <div className="modal-content">
-              <p>정말 삭제하시겠습니까?</p>
+              <div className="modal-title">정말 삭제하시겠습니까?</div>
               <div className="modal-buttons">
                 <button
                   className="btn-gray-filled"
@@ -326,6 +360,35 @@ function TodoPage() {
                 <button
                   className="btn-gray-outlined"
                   onClick={handleDeleteCancel}
+                >
+                  취소
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+      {showTeamModal && (
+        <div className="modal-overlay">
+          <div className="modal modal-team">
+            <div className="modal-content">
+              <div className="modal-team-content">
+                <div className="modal-title">팀 만들기</div>
+                <input
+                  type="text"
+                  value={teamName}
+                  onChange={(e) => setTeamName(e.target.value)}
+                  placeholder="팀 이름을 입력해주세요"
+                  className="text-field-placeholder"
+                />
+              </div>
+              <div className="modal-buttons">
+                <button className="btn-gray-filled" onClick={handleCreateTeam}>
+                  만들기
+                </button>
+                <button
+                  className="btn-gray-outlined"
+                  onClick={handleTeamModalClose}
                 >
                   취소
                 </button>
