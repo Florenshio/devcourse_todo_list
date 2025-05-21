@@ -38,6 +38,8 @@ function TodoPage() {
   ]);
   const [editId, setEditId] = useState(null);
   const [editInput, setEditInput] = useState("");
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [deleteId, setDeleteId] = useState(null);
 
   // 할 일 목록 가져오기
   const fetchTodos = async () => {
@@ -151,9 +153,34 @@ function TodoPage() {
   };
 
   // 할일 삭제
-  const handleDelete = (id) => {
-    const updatedTodos = todos.filter((todo) => todo.id !== id);
-    setTodos(updatedTodos);
+  const handleDelete = async (id) => {
+    setDeleteId(id);
+    setShowDeleteModal(true);
+  };
+
+  const handleDeleteConfirm = async () => {
+    try {
+      const response = await axios.delete(`/api/tasks/${deleteId}`);
+
+      if (response.status === 204) {
+        const updatedTodos = todos.filter((todo) => todo.id !== deleteId);
+        setTodos(updatedTodos);
+        console.log("할 일 삭제 성공");
+      } else {
+        console.error("할 일 삭제 실패");
+      }
+    } catch (error) {
+      console.error("할 일 삭제 중 오류 발생:", error);
+    } finally {
+      setShowDeleteModal(false);
+      setDeleteId(null);
+    }
+  };
+
+  const handleDeleteCancel = () => {
+    setShowDeleteModal(false);
+    setDeleteId(null);
+    console.log("삭제 취소");
   };
 
   return (
@@ -283,6 +310,29 @@ function TodoPage() {
           </div>
         </div>
       </div>
+      {showDeleteModal && (
+        <div className="modal-overlay">
+          <div className="modal">
+            <div className="modal-content">
+              <p>정말 삭제하시겠습니까?</p>
+              <div className="modal-buttons">
+                <button
+                  className="btn-gray-filled"
+                  onClick={handleDeleteConfirm}
+                >
+                  확인
+                </button>
+                <button
+                  className="btn-gray-outlined"
+                  onClick={handleDeleteCancel}
+                >
+                  취소
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
