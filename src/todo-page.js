@@ -57,7 +57,7 @@ function TodoPage() {
 
   // 할일 생성
   const handleAddTodo = async () => {
-    if (!todoInput.trim()) return;
+    if (!todoInput.trim()) return; // 빈 입력값 처리
 
     try {
       const response = await axios.post("/api/tasks", {
@@ -66,7 +66,6 @@ function TodoPage() {
       });
 
       if (response.status === 201) {
-        // 서버에서 받은 응답으로 새로운 할일 추가
         setTodos([...todos, response.data]);
         setTodoInput("");
         console.log("새로운 할 일이 추가되었습니다.");
@@ -76,6 +75,8 @@ function TodoPage() {
     }
   };
 
+  // 할일 상태 변경
+  // TODO : status 타입을 boolean으로 변경시 코드 수정 필요
   const handleToggle = async (id) => {
     try {
       const todo = todos.find((t) => t.id === id);
@@ -97,11 +98,13 @@ function TodoPage() {
     }
   };
 
+  // 할일 수정
   const handleEdit = (id, title) => {
     setEditId(id);
     setEditInput(title);
   };
 
+  // 할일 삭제
   const handleDelete = (id) => {
     const updatedTodos = todos.filter((todo) => todo.id !== id);
     setTodos(updatedTodos);
