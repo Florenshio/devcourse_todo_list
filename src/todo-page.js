@@ -116,7 +116,7 @@ function TodoPage() {
         {/* 좌측 메뉴 */}
         <div className="todo-sidebar">
           <div className="todo-menu">
-            <div className="todo-menu-itm">할 일 목록</div>
+            <button className="todo-menu-itm">개인 할 일 목록</button>
             <button className="todo-sidebar-btn btn-gray-outlined">
               팀 만들기
             </button>

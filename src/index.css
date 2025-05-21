@@ -221,6 +221,7 @@ body {
   font-style: normal;
   font-weight: 700;
   line-height: 150%;
+  border: none;
   border-radius: var(--Corner-Extra-small, 4px);
   background: #e2e8f0;
 }
