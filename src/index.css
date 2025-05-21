@@ -314,7 +314,6 @@ body {
 }
 
 .todo-item-text {
-  flex: 1 0 0;
   color: #0f172a;
   font-family: Pretendard;
   font-size: 16px;
