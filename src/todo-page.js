@@ -65,22 +65,36 @@ function TodoPage() {
         team_id: 1, // TODO: 실제 팀 ID로 변경 필요
       });
 
-      // 서버에서 받은 응답으로 새로운 할일 추가
-      setTodos([...todos, response.data]);
-      setTodoInput("");
-      console.log("새로운 할 일이 추가되었습니다.");
+      if (response.status === 201) {
+        // 서버에서 받은 응답으로 새로운 할일 추가
+        setTodos([...todos, response.data]);
+        setTodoInput("");
+        console.log("새로운 할 일이 추가되었습니다.");
+      }
     } catch (error) {
       console.error("할 일 추가 중 오류 발생:", error);
     }
   };
 
-  const handleToggle = (id) => {
-    const updatedTodos = todos.map((todo) =>
-      todo.id === id
-        ? { ...todo, status: todo.status === "todo" ? "done" : "todo" }
-        : todo
-    );
-    setTodos(updatedTodos);
+  const handleToggle = async (id) => {
+    try {
+      const todo = todos.find((t) => t.id === id);
+      const newStatus = todo.status === "todo" ? "done" : "todo";
+
+      const response = await axios.patch(`/api/tasks/${id}/status`, {
+        status: newStatus,
+      });
+
+      if (response.status === 200) {
+        const updatedTodos = todos.map((todo) =>
+          todo.id === id ? { ...todo, status: newStatus } : todo
+        );
+        setTodos(updatedTodos);
+        console.log("할일 상태가 변경되었습니다.");
+      }
+    } catch (error) {
+      console.error("할일 상태 변경 중 오류 발생:", error);
+    }
   };
 
   const handleEdit = (id, title) => {
