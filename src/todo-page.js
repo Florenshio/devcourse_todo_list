@@ -35,7 +35,6 @@ function TodoPage() {
     if (!todoInput.trim()) return;
 
     try {
-      // TODO: 백엔드 연동 시 아래 주석을 해제하고 임시 코드를 제거
       await axios.post("/api/todos", {
         title: todoInput,
       });
@@ -144,12 +143,16 @@ function TodoPage() {
                   .filter((todo) => todo.done)
                   .map((todo) => (
                     <div key={todo.id} className="todo-item">
-                      <input
-                        type="checkbox"
-                        checked={todo.done}
-                        onChange={() => handleToggle(todo.id)}
-                      />
-                      <span className="todo-item-text done">{todo.title}</span>
+                      <div className="todo-checkfield">
+                        <input
+                          type="checkbox"
+                          checked={todo.done}
+                          onChange={() => handleToggle(todo.id)}
+                        />
+                        <span className="todo-item-text done">
+                          {todo.title}
+                        </span>
+                      </div>
                       <button
                         className="todo-delete-btn btn-red-outlined "
                         onClick={() => handleDelete(todo.id)}
