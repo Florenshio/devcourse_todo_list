@@ -14,7 +14,7 @@ const LoginPage = () => {
 
     try {
       console.log("로그인 시도:", { user_id, password });
-      const response = await api.post("/api/auth/login", {
+      const response = await api.post("/auth/login", {
         user_id,
         password,
       });

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import api from "./api/axios";
 import "./index.css";
 
 function TodoPage() {
@@ -46,7 +46,7 @@ function TodoPage() {
   // 할 일 목록 가져오기
   const fetchTodos = async () => {
     try {
-      const response = await axios.get("/api/tasks");
+      const response = await api.get("/tasks");
       if (response.status === 200) {
         setTodos(response.data);
         console.log("할 일 목록 조회 성공");
@@ -68,7 +68,7 @@ function TodoPage() {
     if (!todoInput.trim()) return; // 빈 입력값 처리
 
     try {
-      const response = await axios.post("/api/tasks", {
+      const response = await api.post("/tasks", {
         title: todoInput,
         team_id: 1, // TODO: 실제 팀 ID로 변경 필요
       });
@@ -92,7 +92,7 @@ function TodoPage() {
       const todo = todos.find((t) => t.id === id);
       const newStatus = todo.status === "todo" ? "done" : "todo";
 
-      const response = await axios.patch(`/api/tasks/${id}/status`, {
+      const response = await api.patch(`/tasks/${id}/status`, {
         status: newStatus,
       });
 
@@ -130,7 +130,7 @@ function TodoPage() {
     }
 
     try {
-      const response = await axios.patch(`/api/tasks/${id}`, {
+      const response = await api.put(`/tasks/${id}`, {
         title: editInput,
       });
 
@@ -162,7 +162,7 @@ function TodoPage() {
 
   const handleDeleteConfirm = async () => {
     try {
-      const response = await axios.delete(`/api/tasks/${deleteId}`);
+      const response = await api.delete(`/tasks/${deleteId}`);
 
       if (response.status === 204) {
         const updatedTodos = todos.filter((todo) => todo.id !== deleteId);
