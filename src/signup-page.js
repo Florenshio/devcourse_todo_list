@@ -54,7 +54,7 @@ const SignupPage = () => {
         setError(false);
         setErrorMessage("");
         alert("회원가입 성공!");
-        navigate("/login");
+        navigate("/");
       } else {
         setError(true);
         setErrorMessage(response.data.message || "회원가입에 실패했습니다.");
