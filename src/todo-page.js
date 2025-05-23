@@ -12,25 +12,25 @@ function TodoPage() {
       title: "리액트 공부하기",
       status: "todo",
       created_by: 1,
-      team_id: 1,
+      team_id: null,
     },
     {
       id: 2,
-      title: "타입스크립트 공부하기",
+      title: "백엔드 API 연동하기",
+      status: "done",
+      created_by: 1,
+      team_id: null,
+    },
+    {
+      id: 3,
+      title: "팀 A 프로젝트 기획서 작성",
       status: "todo",
       created_by: 1,
       team_id: 1,
     },
     {
-      id: 3,
-      title: "백엔드 API 연동하기",
-      status: "done",
-      created_by: 1,
-      team_id: 1,
-    },
-    {
       id: 4,
-      title: "CSS 스타일링 완성하기",
+      title: "팀 A 프로젝트 일정 조정",
       status: "done",
       created_by: 1,
       team_id: 1,
@@ -42,11 +42,24 @@ function TodoPage() {
   const [deleteId, setDeleteId] = useState(null);
   const [showTeamModal, setShowTeamModal] = useState(false);
   const [teamName, setTeamName] = useState("");
+  const [teams, setTeams] = useState([
+    {
+      id: 1,
+      name: "팀 A",
+    },
+  ]);
+  const [selectedTeamId, setSelectedTeamId] = useState(null);
 
   // 할 일 목록 가져오기
   const fetchTodos = async () => {
     try {
-      const response = await axios.get("/api/tasks");
+      // 개인 할 일 목록일 경우 team_id를 null로 설정
+      const params =
+        selectedTeamId === null
+          ? { team_id: null }
+          : { team_id: selectedTeamId };
+
+      const response = await axios.get("/api/tasks", { params });
       if (response.status === 200) {
         setTodos(response.data);
         console.log("할 일 목록 조회 성공");
@@ -58,10 +71,33 @@ function TodoPage() {
     }
   };
 
-  // 컴포넌트 마운트 시 할 일 목록 가져오기
+  // 팀 목록 가져오기
+  const fetchTeams = async () => {
+    try {
+      const response = await axios.get("/api/teams");
+      if (response.status === 200) {
+        setTeams(response.data);
+        console.log("팀 목록 조회 성공");
+      } else {
+        console.error("팀 목록 조회 실패");
+      }
+    } catch (error) {
+      console.error("팀 목록 조회 중 오류 발생:", error);
+    }
+  };
+
+  // 컴포넌트 마운트 시 할 일 목록과 팀 목록 가져오기
   useEffect(() => {
-    fetchTodos();
+    fetchTeams();
+    fetchTodos(); // 초기 로딩 시 개인 할 일 목록 가져오기
   }, []);
+
+  useEffect(() => {
+    if (selectedTeamId !== undefined) {
+      // selectedTeamId가 변경될 때만 fetchTodos 호출
+      fetchTodos();
+    }
+  }, [selectedTeamId]);
 
   // 할일 생성
   const handleAddTodo = async () => {
@@ -70,7 +106,7 @@ function TodoPage() {
     try {
       const response = await axios.post("/api/tasks", {
         title: todoInput,
-        team_id: 1, // TODO: 실제 팀 ID로 변경 필요
+        team_id: selectedTeamId || null, // 선택된 팀이 없으면 null로 설정
       });
 
       if (response.status === 201) {
@@ -198,6 +234,7 @@ function TodoPage() {
 
       if (response.status === 201) {
         console.log("팀 생성 성공");
+        setTeams([...teams, response.data]);
         setShowTeamModal(false);
         setTeamName("");
       } else {
@@ -206,6 +243,14 @@ function TodoPage() {
     } catch (error) {
       console.error("팀 생성 중 오류 발생:", error);
     }
+  };
+
+  const handleTeamSelect = (teamId) => {
+    setSelectedTeamId(teamId);
+  };
+
+  const handlePersonalTodoSelect = () => {
+    setSelectedTeamId(null);
   };
 
   const handleTeamModalClose = () => {
@@ -220,7 +265,23 @@ function TodoPage() {
         {/* 좌측 메뉴 */}
         <div className="todo-sidebar">
           <div className="todo-menu">
-            <button className="todo-menu-itm">개인 할 일 목록</button>
+            <button
+              className={`todo-menu-itm ${!selectedTeamId ? "active" : ""}`}
+              onClick={handlePersonalTodoSelect}
+            >
+              개인 할 일 목록
+            </button>
+            {teams.map((team) => (
+              <button
+                key={team.id}
+                className={`todo-menu-itm ${
+                  selectedTeamId === team.id ? "active" : ""
+                }`}
+                onClick={() => handleTeamSelect(team.id)}
+              >
+                {`${team.name}의 할일 목록`}
+              </button>
+            ))}
             <button
               className="todo-sidebar-btn btn-gray-outlined"
               onClick={() => setShowTeamModal(true)}
