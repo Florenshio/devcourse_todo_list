@@ -1,4 +1,6 @@
 import React from "react";
+import "../styles/modal.css";
+import "../styles/delete-modal.css";
 
 function DeleteModal({ handleDeleteConfirm, handleDeleteCancel }) {
   return (

@@ -1,4 +1,6 @@
 import React from "react";
+import "../styles/modal.css";
+import "../styles/team-modal.css";
 
 function TeamModal({
   teamName,
