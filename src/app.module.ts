@@ -7,6 +7,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
 import { UsersModule } from './users/user/user.module';
 import { TasksModule } from './tasks/tasks.module';
+import { TeamsModule } from './teams/teams.module';
 
 @Module({
   imports: [
@@ -23,10 +24,10 @@ import { TasksModule } from './tasks/tasks.module';
     }),
     UsersModule,
     TasksModule,
+    TeamsModule,
     AuthModule],
   controllers: [
-    AppController,
-    TeamsController
+    AppController
   ],
   providers: [AppService],
 })
