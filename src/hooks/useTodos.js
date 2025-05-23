@@ -2,7 +2,32 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 
 export function useTodos(selectedTeamId) {
-  const [todos, setTodos] = useState([]);
+  // 백엔드 연동시 아래 빈 배열로 초기화
+  //  const [todos, setTodos] = useState([]);
+  const [todos, setTodos] = useState([
+    {
+      id: 1,
+      title: "개인 할일",
+      status: "todo",
+    },
+    {
+      id: 2,
+      title: "개인 할일",
+      status: "done",
+    },
+    {
+      id: 3,
+      title: "팀 할일",
+      status: "todo",
+      team_id: 2,
+    },
+    {
+      id: 4,
+      title: "팀 할일",
+      status: "done",
+      team_id: 3,
+    },
+  ]);
   const [editId, setEditId] = useState(null);
   const [editInput, setEditInput] = useState("");
   const [showDeleteModal, setShowDeleteModal] = useState(false);
