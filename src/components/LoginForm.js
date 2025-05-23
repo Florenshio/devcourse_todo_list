@@ -1,41 +1,16 @@
-import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import api from "./api/axios";
-import "./index.css";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../hooks/useAuth";
 
-const LoginPage = () => {
-  const [user_id, setuser_id] = useState("");
+function LoginForm() {
+  const [user_id, setUserId] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState(false);
+  const { error, handleLogin } = useAuth();
   const navigate = useNavigate();
 
-  const handleLogin = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-
-    try {
-      console.log("로그인 시도:", { user_id, password });
-      const response = await api.post("/api/auth/login", {
-        user_id,
-        password,
-      });
-
-      console.log("서버 응답:", response.data);
-
-      // if (response.data.success) {
-      if (response.status === 200) {
-        setError(false);
-        // JWT 토큰은 쿠키에 자동으로 저장됨
-        alert("로그인 성공!");
-        navigate("/todo"); // 로그인 성공 후 todo 페이지로 이동
-      } else {
-        setError(true);
-        alert("로그인 실패: " + response.data.message);
-      }
-    } catch (error) {
-      console.error("로그인 에러:", error);
-      console.error("에러 상세:", error.response?.data);
-      setError(true);
-    }
+    await handleLogin(user_id, password);
   };
 
   const handleSignupClick = () => {
@@ -46,13 +21,12 @@ const LoginPage = () => {
     <div className="login-container">
       <div className="login-card">
         <h1 className="login-title">로그인</h1>
-        <form onSubmit={handleLogin}>
+        <form onSubmit={handleSubmit}>
           <input
             placeholder="아이디를 입력해주세요."
             value={user_id}
             onChange={(e) => {
-              setuser_id(e.target.value);
-              setError(false);
+              setUserId(e.target.value);
             }}
             className={`login-input text-field-placeholder${
               error ? " error" : ""
@@ -64,7 +38,6 @@ const LoginPage = () => {
             value={password}
             onChange={(e) => {
               setPassword(e.target.value);
-              setError(false);
             }}
             className={`login-input text-field-placeholder${
               error ? " error" : ""
@@ -87,6 +60,6 @@ const LoginPage = () => {
       </div>
     </div>
   );
-};
+}
 
-export default LoginPage;
+export default LoginForm;
