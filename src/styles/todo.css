@@ -200,3 +200,60 @@
   align-items: center;
   gap: 4px;
 }
+
+.team-menu-row {
+  position: relative;
+  width: 240px;
+  display: flex;
+  align-items: flex-start;
+}
+
+.todo-menu-popup {
+  display: flex;
+  padding: 12px 87px 12px 12px;
+  align-items: center;
+  position: absolute;
+  right: 0;
+  top: 100%;
+  border-radius: var(--Corner-Extra-small, 4px);
+  border: 1px solid #000;
+  background: #fff;
+}
+
+.todo-menu-popup-item {
+  display: flex;
+  width: 56px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.todo-menu-popup-item button {
+  all: unset;
+  display: flex;
+  padding: 4px 0px;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  align-self: stretch;
+  color: #0f172a;
+  text-align: center;
+  font-family: Pretendard;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  cursor: pointer;
+}
+
+.todo-menu-more-btn {
+  display: flex;
+  position: absolute;
+  right: 0;
+  top: 0;
+  height: 100%;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 20px;
+}

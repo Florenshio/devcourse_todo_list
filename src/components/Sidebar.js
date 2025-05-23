@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 function Sidebar({
   teams,
@@ -6,7 +6,15 @@ function Sidebar({
   handleTeamSelect,
   handlePersonalTodoSelect,
   setShowTeamModal,
+  todos,
+  onSelectTodo,
 }) {
+  const [openMenuId, setOpenMenuId] = useState(null);
+
+  const handleMenuClick = (teamId) => {
+    setOpenMenuId(openMenuId === teamId ? null : teamId);
+  };
+
   return (
     <div className="todo-sidebar">
       <div className="todo-menu">
@@ -17,15 +25,32 @@ function Sidebar({
           개인 할 일 목록
         </button>
         {teams.map((team) => (
-          <button
-            key={team.id}
-            className={`todo-menu-itm ${
-              selectedTeamId === team.id ? "active" : ""
-            }`}
-            onClick={() => handleTeamSelect(team.id)}
-          >
-            {`팀 ${team.name}의 할일 목록`}
-          </button>
+          <div key={team.id} style={{ position: "relative" }}>
+            <div className="team-menu-row">
+              <button
+                className={`todo-menu-itm ${
+                  selectedTeamId === team.id ? "active" : ""
+                }`}
+                onClick={() => handleTeamSelect(team.id)}
+              >
+                {`팀 ${team.name}의 할일 목록`}
+              </button>
+              <button
+                className="todo-menu-more-btn"
+                onClick={() => handleMenuClick(team.id)}
+              >
+                ...
+              </button>
+            </div>
+            {openMenuId === team.id && (
+              <div className="todo-menu-popup">
+                <div className="todo-menu-popup-item">
+                  <button>초대하기</button>
+                  <button>삭제하기</button>
+                </div>
+              </div>
+            )}
+          </div>
         ))}
         <button
           className="todo-sidebar-btn btn-gray-outlined"
