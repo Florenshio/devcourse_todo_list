@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
+import api from "../api/axios";
 
 function LoginForm() {
   const [user_id, setUserId] = useState("");
   const [password, setPassword] = useState("");
-  const { error, handleLogin } = useAuth();
+  const { error, setError, handleLogin } = useAuth();
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -20,7 +21,6 @@ function LoginForm() {
 
       console.log("서버 응답:", response.data);
 
-      // if (response.data.success) {
       if (response.status === 200) {
         setError(false);
         // JWT 토큰은 쿠키에 자동으로 저장됨
