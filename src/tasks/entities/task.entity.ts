@@ -1,5 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn } from 'typeorm';
+import { Team } from '../../teams/entities/team.entity';
+import { User } from '../../users/entities/user.entity';
 
 export enum TaskStatus {
   TODO = 'todo',
@@ -35,4 +37,20 @@ export class Task {
   })
   @Column({ type: 'int', nullable: true })
   team_id: number | null;
+
+  @ApiProperty({
+    description: '팀',
+    type: Team
+  })
+  @ManyToOne(() => Team)
+  @JoinColumn({ name: 'team_id', referencedColumnName: 'id' })
+  team: Team;
+
+  @ApiProperty({
+    description: '생성자',
+    type: User
+  })
+  @ManyToOne(() => User)
+  @JoinColumn({ name: 'created_by', referencedColumnName: 'id' })
+  creator: User;
 }
