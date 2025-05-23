@@ -220,7 +220,7 @@
   background: #fff;
 }
 
-.todo-menu-popup-item {
+.todo-menu-popup-buttons {
   display: flex;
   width: 56px;
   flex-direction: column;
@@ -228,7 +228,7 @@
   gap: 8px;
 }
 
-.todo-menu-popup-item button {
+.todo-menu-popup-buttons button {
   all: unset;
   display: flex;
   padding: 4px 0px;

@@ -14,6 +14,10 @@ export function useTeams() {
   const [showTeamModal, setShowTeamModal] = useState(false);
   const [teamName, setTeamName] = useState("");
 
+  // 팀 삭제 모달 상태 및 삭제할 팀 id
+  const [showTeamDeleteModal, setShowTeamDeleteModal] = useState(false);
+  const [teamToDeleteId, setTeamToDeleteId] = useState(null);
+
   // 팀 목록 가져오기
   const fetchTeams = async () => {
     try {
@@ -70,6 +74,32 @@ export function useTeams() {
     setTeamName("");
   };
 
+  const handleTeamDeleteClick = (teamId) => {
+    setTeamToDeleteId(teamId);
+    setShowTeamDeleteModal(true);
+  };
+
+  const handleTeamDeleteConfirm = async () => {
+    try {
+      const response = await axios.delete(`/api/teams/${teamToDeleteId}`);
+      if (response.status === 204) {
+        await fetchTeams();
+      } else {
+        console.error("팀 삭제에 실패했습니다.");
+      }
+    } catch (error) {
+      console.error("팀 삭제 중 오류가 발생했습니다.");
+    } finally {
+      setShowTeamDeleteModal(false);
+      setTeamToDeleteId(null);
+    }
+  };
+
+  const handleTeamDeleteCancel = () => {
+    setShowTeamDeleteModal(false);
+    setTeamToDeleteId(null);
+  };
+
   return {
     teams,
     selectedTeamId,
@@ -81,5 +111,11 @@ export function useTeams() {
     handleTeamSelect,
     handlePersonalTodoSelect,
     handleTeamModalClose,
+    // 팀 삭제 관련
+    showTeamDeleteModal,
+    teamToDeleteId,
+    handleTeamDeleteClick,
+    handleTeamDeleteConfirm,
+    handleTeamDeleteCancel,
   };
 }

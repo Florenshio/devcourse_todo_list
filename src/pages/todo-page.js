@@ -23,6 +23,10 @@ function TodoPage() {
     handleTeamSelect,
     handlePersonalTodoSelect,
     handleTeamModalClose,
+    showTeamDeleteModal,
+    handleTeamDeleteClick,
+    handleTeamDeleteConfirm,
+    handleTeamDeleteCancel,
   } = useTeams();
 
   const {
@@ -59,6 +63,7 @@ function TodoPage() {
           setShowTeamModal={setShowTeamModal}
           todos={todos}
           onSelectTodo={handleToggle}
+          onTeamDeleteClick={handleTeamDeleteClick}
         />
         <div className="todo-main">
           <div className="todo-input-row">
@@ -93,6 +98,12 @@ function TodoPage() {
         <DeleteModal
           handleDeleteConfirm={handleDeleteConfirm}
           handleDeleteCancel={handleDeleteCancel}
+        />
+      )}
+      {showTeamDeleteModal && (
+        <DeleteModal
+          handleDeleteConfirm={handleTeamDeleteConfirm}
+          handleDeleteCancel={handleTeamDeleteCancel}
         />
       )}
       {showTeamModal && (
