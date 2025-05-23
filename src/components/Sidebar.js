@@ -8,6 +8,8 @@ function Sidebar({
   setShowTeamModal,
   todos,
   onSelectTodo,
+  onTeamDeleteClick,
+  onTeamInviteClick,
 }) {
   const [openMenuId, setOpenMenuId] = useState(null);
 
@@ -44,9 +46,11 @@ function Sidebar({
             </div>
             {openMenuId === team.id && (
               <div className="todo-menu-popup">
-                <div className="todo-menu-popup-item">
-                  <button>초대하기</button>
-                  <button>삭제하기</button>
+                <div className="todo-menu-popup-buttons">
+                  <button onClick={onTeamInviteClick}>초대하기</button>
+                  <button onClick={() => onTeamDeleteClick(team.id)}>
+                    삭제하기
+                  </button>
                 </div>
               </div>
             )}

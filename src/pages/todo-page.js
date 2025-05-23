@@ -6,11 +6,15 @@ import Sidebar from "../components/Sidebar";
 import TodoList from "../components/TodoList";
 import DeleteModal from "../components/DeleteModal";
 import TeamModal from "../components/TeamModal";
+import TeamInviteModal from "../components/TeamInviteModal";
 import { useTodos } from "../hooks/useTodos";
 import { useTeams } from "../hooks/useTeams";
 
 function TodoPage() {
   const [todoInput, setTodoInput] = useState("");
+
+  // 팀 초대 모달 상태 및 로직
+  const [showInviteModal, setShowInviteModal] = useState(false);
 
   const {
     teams,
@@ -27,6 +31,11 @@ function TodoPage() {
     handleTeamDeleteClick,
     handleTeamDeleteConfirm,
     handleTeamDeleteCancel,
+    handleInvite,
+    inviteInput,
+    setInviteInput,
+    invitedMembers,
+    handleRemoveMember,
   } = useTeams();
 
   const {
@@ -52,6 +61,14 @@ function TodoPage() {
     }
   };
 
+  const handleTeamInviteClick = () => {
+    setShowInviteModal(true);
+  };
+
+  const handleInviteModalClose = () => {
+    setShowInviteModal(false);
+  };
+
   return (
     <div className="todo-layout">
       <div className="todo-page">
@@ -64,6 +81,7 @@ function TodoPage() {
           todos={todos}
           onSelectTodo={handleToggle}
           onTeamDeleteClick={handleTeamDeleteClick}
+          onTeamInviteClick={handleTeamInviteClick}
         />
         <div className="todo-main">
           <div className="todo-input-row">
@@ -104,6 +122,17 @@ function TodoPage() {
         <DeleteModal
           handleDeleteConfirm={handleTeamDeleteConfirm}
           handleDeleteCancel={handleTeamDeleteCancel}
+        />
+      )}
+      {showInviteModal && (
+        <TeamInviteModal
+          open={showInviteModal}
+          onClose={handleInviteModalClose}
+          onInvite={handleInvite}
+          inviteInput={inviteInput}
+          setInviteInput={setInviteInput}
+          invitedMembers={invitedMembers}
+          onRemoveMember={handleRemoveMember}
         />
       )}
       {showTeamModal && (

@@ -18,6 +18,19 @@ export function useTeams() {
   const [showTeamDeleteModal, setShowTeamDeleteModal] = useState(false);
   const [teamToDeleteId, setTeamToDeleteId] = useState(null);
 
+  // 팀 초대 모달 상태 및 초대 관련 상태
+  const [showInviteModal, setShowInviteModal] = useState(false);
+  const [inviteInput, setInviteInput] = useState("");
+  const [invitedMembers, setInvitedMembers] = useState([
+    {
+      user_id: "person01",
+    },
+    {
+      user_id: "person02",
+    },
+  ]);
+  const [inviteTeamId, setInviteTeamId] = useState(null);
+
   // 팀 목록 가져오기
   const fetchTeams = async () => {
     try {
@@ -100,6 +113,69 @@ export function useTeams() {
     setTeamToDeleteId(null);
   };
 
+  // 팀원 목록 불러오기
+  const fetchTeamMembers = async (teamId) => {
+    try {
+      const response = await axios.get(`/api/teams/${teamId}`);
+      if (response.status === 200) {
+        setInvitedMembers(response.data);
+      } else {
+        setInvitedMembers([]);
+      }
+    } catch (e) {
+      setInvitedMembers([]);
+    }
+  };
+
+  // 팀 초대 모달 열기
+  const handleTeamInviteClick = async (teamId) => {
+    setInviteTeamId(teamId);
+    setShowInviteModal(true);
+    await fetchTeamMembers(teamId);
+  };
+
+  // 팀원 초대 기능
+  const handleInvite = async () => {
+    if (!inviteInput.trim()) return;
+    try {
+      const response = await axios.post(`/api/teams/${inviteTeamId}/members`, {
+        user_id: inviteInput.trim(),
+      });
+      if (response.status === 201) {
+        //setInvitedMembers([...invitedMembers, response.data]);
+        setInviteInput("");
+        console.log("초대 성공");
+      } else {
+        console.error("초대에 실패했습니다.");
+      }
+    } catch (e) {
+      console.error("초대 중 오류가 발생했습니다.");
+    }
+  };
+
+  // 팀 초대 모달 닫기
+  const handleInviteModalClose = () => {
+    setShowInviteModal(false);
+    setInviteInput("");
+    setInviteTeamId(null);
+    setInvitedMembers([]);
+  };
+
+  // 팀원 삭제 기능
+  const handleRemoveMember = async (user_id) => {
+    try {
+      const response = await axios.delete(
+        `/api/teams/${inviteTeamId}/members/${user_id}`
+      );
+      if (response.status === 204) {
+        console.log("팀원 삭제 성공");
+        await fetchTeamMembers(inviteTeamId);
+      }
+    } catch (e) {
+      console.error("팀원 삭제 실패", e);
+    }
+  };
+
   return {
     teams,
     selectedTeamId,
@@ -117,5 +193,17 @@ export function useTeams() {
     handleTeamDeleteClick,
     handleTeamDeleteConfirm,
     handleTeamDeleteCancel,
+    // 팀 초대 관련
+    showInviteModal,
+    inviteInput,
+    setInviteInput,
+    invitedMembers,
+    setInvitedMembers,
+    inviteTeamId,
+    setInviteTeamId,
+    handleTeamInviteClick,
+    handleInvite,
+    handleInviteModalClose,
+    handleRemoveMember,
   };
 }
