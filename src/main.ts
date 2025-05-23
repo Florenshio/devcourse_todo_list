@@ -2,6 +2,8 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { ValidationPipe } from '@nestjs/common';
+import { CustomValidationPipe } from './common/pipes/custom-validation.pipe';
+import { AppExceptionFilter } from './common/filters/app-exception.filter';
 import * as cookieParser from 'cookie-parser';
 
 async function bootstrap() {
@@ -11,11 +13,15 @@ async function bootstrap() {
   app.use(cookieParser());
   
   // Validation Pipe 설정
-  app.useGlobalPipes(new ValidationPipe({
-    whitelist: true,
-    forbidNonWhitelisted: true,
-    transform: true,
-  }));
+  // app.useGlobalPipes(new ValidationPipe({
+  //   whitelist: true,
+  //   forbidNonWhitelisted: true,
+  //   transform: true,
+  // }));
+  app.useGlobalPipes(new CustomValidationPipe());
+
+  // 전역 예외 필터 설정
+  app.useGlobalFilters(new AppExceptionFilter());
   
   // CORS 설정
   app.enableCors({
