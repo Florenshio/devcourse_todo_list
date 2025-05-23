@@ -10,7 +10,31 @@ function LoginForm() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await handleLogin(user_id, password);
+
+    try {
+      console.log("로그인 시도:", { user_id, password });
+      const response = await api.post("/api/auth/login", {
+        user_id,
+        password,
+      });
+
+      console.log("서버 응답:", response.data);
+
+      // if (response.data.success) {
+      if (response.status === 200) {
+        setError(false);
+        // JWT 토큰은 쿠키에 자동으로 저장됨
+        alert("로그인 성공!");
+        navigate("/todo"); // 로그인 성공 후 todo 페이지로 이동
+      } else {
+        setError(true);
+        alert("로그인 실패: " + response.data.message);
+      }
+    } catch (error) {
+      console.error("로그인 에러:", error);
+      console.error("에러 상세:", error.response?.data);
+      setError(true);
+    }
   };
 
   const handleSignupClick = () => {
