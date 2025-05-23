@@ -2,7 +2,14 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 
 export function useTeams() {
-  const [teams, setTeams] = useState([]);
+  // 백엔드 연동시 아래 빈 배열로 초기화
+  //  const [teams, setTeams] = useState([]);
+  const [teams, setTeams] = useState([
+    {
+      id: 1,
+      name: "A",
+    },
+  ]);
   const [selectedTeamId, setSelectedTeamId] = useState(null);
   const [showTeamModal, setShowTeamModal] = useState(false);
   const [teamName, setTeamName] = useState("");

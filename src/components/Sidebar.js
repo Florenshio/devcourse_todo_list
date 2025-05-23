@@ -24,7 +24,7 @@ function Sidebar({
             }`}
             onClick={() => handleTeamSelect(team.id)}
           >
-            {`${team.name}의 할일 목록`}
+            {`팀 ${team.name}의 할일 목록`}
           </button>
         ))}
         <button

@@ -57,6 +57,8 @@ function TodoPage() {
           handleTeamSelect={handleTeamSelect}
           handlePersonalTodoSelect={handlePersonalTodoSelect}
           setShowTeamModal={setShowTeamModal}
+          todos={todos}
+          onSelectTodo={handleToggle}
         />
         <div className="todo-main">
           <div className="todo-input-row">

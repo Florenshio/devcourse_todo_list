@@ -7,25 +7,25 @@ export function useTodos(selectedTeamId) {
   const [todos, setTodos] = useState([
     {
       id: 1,
-      title: "개인 할일",
+      title: "개인 할일 1",
       status: "todo",
     },
     {
       id: 2,
-      title: "개인 할일",
+      title: "개인 할일 2",
       status: "done",
     },
     {
       id: 3,
-      title: "팀 할일",
+      title: "A팀 할일 1",
       status: "todo",
-      team_id: 2,
+      team_id: 1,
     },
     {
       id: 4,
-      title: "팀 할일",
+      title: "A팀 할일 2",
       status: "done",
-      team_id: 3,
+      team_id: 1,
     },
   ]);
   const [editId, setEditId] = useState(null);
