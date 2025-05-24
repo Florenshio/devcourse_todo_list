@@ -1,11 +1,8 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
-import { TeamsController } from './teams/teams.controller';
 import { AuthModule } from './auth/auth.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
-import { UsersModule } from './users/user/user.module';
+import { UsersModule } from './users/user.module';
 import { TasksModule } from './tasks/tasks.module';
 import { TeamsModule } from './teams/teams.module';
 
@@ -26,9 +23,7 @@ import { TeamsModule } from './teams/teams.module';
     TasksModule,
     TeamsModule,
     AuthModule],
-  controllers: [
-    AppController
-  ],
-  providers: [AppService],
+  controllers: [],
+  providers: [],
 })
 export class AppModule {}
