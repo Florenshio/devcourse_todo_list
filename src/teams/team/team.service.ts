@@ -6,6 +6,8 @@ import { CreateTeamDto } from '../dto/create-team.dto';
 import { JwtPayload } from 'src/common/interface/jwt-payload.interface';
 import { TeamMember } from '../entities/team-member.entity';
 import { AddTeamMemberDto } from '../dto/add-team-member.dto';
+import { AppException } from 'src/common/exceptions/app.exception';
+import { ErrorCode } from 'src/common/constants/error-codes';
 
 @Injectable()
 export class TeamService {
@@ -19,6 +21,7 @@ export class TeamService {
     ) {};
 
     async createTeam(createTeamDto: CreateTeamDto, user: JwtPayload) {
+        // 팀 생성
         const { name } = createTeamDto;
 
         const teamData: Partial<Team> = {
@@ -29,7 +32,7 @@ export class TeamService {
         const newTeam = await this.teamRepository.create(teamData);
         const createResult = await this.teamRepository.save(newTeam)
         
-        //
+        // 팀 생성 시 사용자도 팀에 추가
         const teamMemberData: Partial<TeamMember> = {
             team_id: newTeam.id,
             user_id: user.id
@@ -78,10 +81,6 @@ export class TeamService {
             relations: ['members']
          });
 
-        // if (!team) {
-        //     throw new Error('팀 ID가 존재하지 않습니다.');
-        // }
-
         const teamMembers = team.map(t => t.members.map(m => m.user_id));
 
         if (!teamMembers[0].includes(user.id)) {
@@ -115,8 +114,13 @@ export class TeamService {
             throw new Error('소속된 팀이 아닙니다.');
         }
 
-        // 팀원 추가 실행
+        // 팀원 추가 실행, 중복 확인
         const { user_id } = addTeamMemberDto;
+
+        const teamMember = await this.teamMemberRepository.findOneBy({ team_id, user_id });
+        if (teamMember) {
+            throw new AppException(ErrorCode.TEAM_MEMBER_ALREADY_EXISTS);
+        }
 
         const teamMemberData: Partial<TeamMember> = {
             team_id,
