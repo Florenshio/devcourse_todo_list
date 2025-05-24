@@ -8,6 +8,7 @@ import { TeamMember } from '../entities/team-member.entity';
 import { AddTeamMemberDto } from '../dto/add-team-member.dto';
 import { AppException } from 'src/common/exceptions/app.exception';
 import { ErrorCode } from 'src/common/constants/error-codes';
+import { User } from 'src/users/entities/user.entity';
 
 @Injectable()
 export class TeamService {
@@ -17,11 +18,14 @@ export class TeamService {
         private teamRepository: Repository<Team>,
 
         @InjectRepository(TeamMember)
-        private teamMemberRepository: Repository<TeamMember>
+        private teamMemberRepository: Repository<TeamMember>,
+
+        @InjectRepository(User)
+        private userRepository: Repository<User>
     ) {};
 
+    /* 팀 생성 */
     async createTeam(createTeamDto: CreateTeamDto, user: JwtPayload) {
-        // 팀 생성
         const { name } = createTeamDto;
 
         const teamData: Partial<Team> = {
@@ -38,12 +42,13 @@ export class TeamService {
             user_id: user.id
         };
 
-        const newTeamMember = this.teamMemberRepository.create(teamMemberData);
+        const newTeamMember = await this.teamMemberRepository.create(teamMemberData);
         await this.teamMemberRepository.save(newTeamMember);
 
         return createResult;
     }
 
+    /* 팀 목록 조회 */
     async findAllTeams(user: JwtPayload) {
         // 1. 사용자가 생성한 팀 찾기
         const createdTeams = await this.teamRepository.find({ 
@@ -74,6 +79,7 @@ export class TeamService {
         return allTeams;
     }
 
+    /* 팀 ID로 조회 */
     async findTeamById(team_id: number, user: JwtPayload) {
         // 자신이 속한 팀이 아니면 조회 못하도록
         const team = await this.teamRepository.find({ 
@@ -87,20 +93,25 @@ export class TeamService {
             throw new Error('팀에 속해있지 않습니다.');
         }
 
-        return this.teamRepository.findOneBy({ id: team_id });
+        return await this.teamRepository.findOneBy({ id: team_id });
     }
 
+    /* 팀 삭제 */
     async removeTeam(team_id: number, user: JwtPayload) {
-        const team = await this.teamRepository.find(
+        const team = await this.teamRepository.findOne(
             { where: { id: team_id, created_by: user.id } });
 
         if (!team) {
             throw new Error('팀 ID가 존재하지 않습니다.');
         }
 
-        return this.teamRepository.remove(team);
+        // 팀 멤버를 먼저 삭제
+        await this.teamMemberRepository.delete({ team_id });
+
+        return await this.teamRepository.remove(team);
     }
 
+    /* 팀원 추가 */
     async addTeamMember(team_id: number, addTeamMemberDto: AddTeamMemberDto, user: JwtPayload) {
 
         // 사용자가 속한 팀인지 확인
@@ -116,15 +127,20 @@ export class TeamService {
 
         // 팀원 추가 실행, 중복 확인
         const { user_id } = addTeamMemberDto;
+        const user_id_number = await this.userRepository.findOneBy({ user_id: user_id });
 
-        const teamMember = await this.teamMemberRepository.findOneBy({ team_id, user_id });
+        if (!user_id_number) {
+            throw new AppException(ErrorCode.USER_NOT_FOUND);
+        }
+
+        const teamMember = await this.teamMemberRepository.findOneBy({ team_id, user_id: user_id_number.id });
         if (teamMember) {
             throw new AppException(ErrorCode.TEAM_MEMBER_ALREADY_EXISTS);
         }
 
         const teamMemberData: Partial<TeamMember> = {
             team_id,
-            user_id
+            user_id: user_id_number.id
         };
 
         const newTeamMember = await this.teamMemberRepository.create(teamMemberData);
@@ -132,6 +148,7 @@ export class TeamService {
         return await this.teamMemberRepository.save(newTeamMember);
     }
 
+    /* 팀원 삭제 */
     async removeTeamMember(team_id: number, user_id: number, user: JwtPayload) {
         // 사용자가 속한 팀인지 확인
         const team = await this.teamRepository.find({
@@ -144,7 +161,6 @@ export class TeamService {
             throw new Error('소속된 팀이 아닙니다.');
         }
 
-        // 팀원 삭제 실행
         return await this.teamMemberRepository.delete({ team_id: team_id, user_id: user_id });
     }
 }

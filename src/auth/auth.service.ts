@@ -13,6 +13,7 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
 
+  /* 로그인 */
   async login(loginDto: LoginDto) {
     const { user_id, password } = loginDto;
     
