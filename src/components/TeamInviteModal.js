@@ -42,7 +42,11 @@ function TeamInviteModal({
                     onClick={() => onRemoveMember(member.user_id)}
                     style={{ cursor: "pointer" }}
                   >
-                    삭제
+                    <img
+                      src="/delete-icon.png"
+                      alt="삭제"
+                      className="delete-icon"
+                    />
                   </div>
                 </div>
               ))}

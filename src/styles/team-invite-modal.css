@@ -52,3 +52,28 @@
   font-weight: 400;
   line-height: 150%; /* 24px */
 }
+
+.close-icon {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+}
+
+.btn-gray-outlined {
+  padding: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.delete-icon {
+  width: 16px;
+  height: 16px;
+  object-fit: contain;
+}
+
+.modal-invite-member-remove {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
