@@ -40,7 +40,7 @@ export class AppExceptionFilter implements ExceptionFilter {
         detail: process.env.NODE_ENV === 'production' ? undefined : exception.message
       });
     }
-    
+
     // HttpException 처리 (AppException 포함)
     const status = exception.getStatus();
     const exceptionResponse = exception.getResponse() as any;
