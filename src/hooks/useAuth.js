@@ -19,12 +19,12 @@ export function useAuth() {
 
       if (response.status === 200) {
         setError(false);
-        alert("로그인 성공!");
+        console.log("로그인 성공!");
         navigate("/todo");
         return true;
       } else {
         setError(true);
-        alert("로그인 실패: " + response.data.message);
+        console.error("로그인 실패: " + response.data.message);
         return false;
       }
     } catch (error) {
@@ -68,7 +68,7 @@ export function useAuth() {
       if (response.status === 201) {
         setError(false);
         setErrorMessage("");
-        alert("회원가입 성공!");
+        console.log("회원가입 성공!");
         navigate("/");
         return true;
       } else {

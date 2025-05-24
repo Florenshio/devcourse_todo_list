@@ -97,6 +97,7 @@ export function useTeams() {
       const response = await axios.delete(`/api/teams/${teamToDeleteId}`);
       if (response.status === 204) {
         await fetchTeams();
+        console.log("팀 삭제 성공");
       } else {
         console.error("팀 삭제에 실패했습니다.");
       }
@@ -119,8 +120,10 @@ export function useTeams() {
       const response = await axios.get(`/api/teams/${teamId}`);
       if (response.status === 200) {
         setInvitedMembers(response.data);
+        console.log("팀원 목록 조회 성공");
       } else {
         setInvitedMembers([]);
+        console.error("팀원 목록 조회 실패");
       }
     } catch (e) {
       setInvitedMembers([]);
