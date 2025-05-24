@@ -11,7 +11,7 @@ export class Team {
   id: number;
 
   @ApiProperty({ description: '팀 이름', example: '팀 이름' })
-  @Column({ type: 'varchar', length: 100 })
+  @Column({ type: 'varchar', length: 100, unique: true })
   name: string;
 
   @ApiProperty({ description: '생성자 ID', example: 1 })
