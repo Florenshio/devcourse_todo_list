@@ -28,8 +28,8 @@ export class TeamsController {
     },
   })
   @Post()
-  createTeam(@Body() createTeamDto: CreateTeamDto, @GetUser() user: any) {
-    return this.teamService.createTeam(createTeamDto, user);
+  async createTeam(@Body() createTeamDto: CreateTeamDto, @GetUser() user: any) {
+    return await this.teamService.createTeam(createTeamDto, user);
   }
 
   @ApiOperation({ summary: '팀 목록 조회', description: '사용자가 속한 팀 목록 조회' })
@@ -54,8 +54,8 @@ export class TeamsController {
     },
   })
   @Get()
-  findAllTeams(@GetUser() user: JwtPayload) {
-    return this.teamService.findAllTeams(user);
+  async findAllTeams(@GetUser() user: JwtPayload) {
+    return await this.teamService.findAllTeams(user);
   }
 
   @ApiOperation({ summary: '팀 상세 조회', description: '특정 팀의 상세 정보 조회' })
@@ -78,8 +78,8 @@ export class TeamsController {
     },
   })
   @Get(':team_id')
-  findOneTeam(@Param('team_id') team_id: number, @GetUser() user: JwtPayload) {
-    return this.teamService.findTeamById(team_id, user);
+  async findOneTeam(@Param('team_id') team_id: number, @GetUser() user: JwtPayload) {
+    return await this.teamService.findTeamById(team_id, user);
   }
 
   @ApiOperation({ summary: '팀 삭제', description: '특정 팀 삭제' })
@@ -109,12 +109,12 @@ export class TeamsController {
     },
   })
   @Post(':team_id/members')
-  addTeamMember(
+  async addTeamMember(
     @Param('team_id') team_id: number,
     @Body() addTeamMemberDto: AddTeamMemberDto,
     @GetUser() user: JwtPayload
   ) {
-    return this.teamService.addTeamMember(team_id, addTeamMemberDto, user);
+    return await this.teamService.addTeamMember(team_id, addTeamMemberDto, user);
   }
 
   @ApiOperation({ summary: '팀원 삭제', description: '팀에서 멤버 제거' })
@@ -125,11 +125,11 @@ export class TeamsController {
     description: '팀원 삭제 성공',
   })
   @Delete(':team_id/members/:user_id')
-  removeTeamMember(
+  async removeTeamMember(
     @Param('team_id') team_id: number,
     @Param('user_id') user_id: number,
     @GetUser() user: JwtPayload
   ) {
-    return this.teamService.removeTeamMember(team_id, user_id, user);
+    return await this.teamService.removeTeamMember(team_id, user_id, user);
   }
 }
