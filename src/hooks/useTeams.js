@@ -136,7 +136,7 @@ export function useTeams() {
   // 팀원 목록 불러오기
   const fetchTeamMembers = async (teamId) => {
     try {
-      const response = await axios.get(`/teams/${teamId}`);
+      const response = await axios.get(`/teams/${teamId}/members`);
       if (response.status === 200) {
         setInvitedMembers(response.data);
         console.log("팀원 목록 조회 성공");
@@ -173,6 +173,7 @@ export function useTeams() {
       });
       if (response.status === 201) {
         setInviteInput("");
+        await fetchTeamMembers(inviteTeamId);
         console.log("초대 성공");
       } else {
         const errorCode = response.data?.errorCode;
