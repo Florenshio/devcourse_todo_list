@@ -37,6 +37,10 @@ function TodoPage() {
     invitedMembers,
     handleRemoveMember,
     handleTeamInviteClick: inviteTeamMember,
+    error,
+    errorMessage,
+    inviteError,
+    inviteErrorMessage,
   } = useTeams();
 
   const {
@@ -135,6 +139,8 @@ function TodoPage() {
           setInviteInput={setInviteInput}
           invitedMembers={invitedMembers}
           onRemoveMember={handleRemoveMember}
+          error={inviteError}
+          errorMessage={inviteErrorMessage}
         />
       )}
       {showTeamModal && (
@@ -143,6 +149,8 @@ function TodoPage() {
           setTeamName={setTeamName}
           handleCreateTeam={handleCreateTeam}
           handleTeamModalClose={handleTeamModalClose}
+          error={error}
+          errorMessage={errorMessage}
         />
       )}
     </div>

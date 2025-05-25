@@ -13,6 +13,8 @@ export function useTeams() {
   const [selectedTeamId, setSelectedTeamId] = useState(null);
   const [showTeamModal, setShowTeamModal] = useState(false);
   const [teamName, setTeamName] = useState("");
+  const [error, setError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   // 팀 삭제 모달 상태 및 삭제할 팀 id
   const [showTeamDeleteModal, setShowTeamDeleteModal] = useState(false);
@@ -32,6 +34,8 @@ export function useTeams() {
     },
   ]);
   const [inviteTeamId, setInviteTeamId] = useState(null);
+  const [inviteError, setInviteError] = useState(false);
+  const [inviteErrorMessage, setInviteErrorMessage] = useState("");
 
   // 팀 목록 가져오기
   const fetchTeams = async () => {
@@ -53,8 +57,12 @@ export function useTeams() {
   }, []);
 
   const handleCreateTeam = async () => {
+    setError(false);
+    setErrorMessage("");
+
     if (!teamName.trim()) {
-      console.error("팀 이름을 입력해주세요.");
+      setError(true);
+      setErrorMessage("팀 이름을 입력해주세요.");
       return;
     }
 
@@ -69,7 +77,15 @@ export function useTeams() {
         setShowTeamModal(false);
         setTeamName("");
       } else {
-        console.error("팀 생성 실패");
+        const errorCode = response.data?.errorCode;
+
+        if (errorCode === "te-001") {
+          setError(true);
+          setErrorMessage("이미 존재하는 팀 이름입니다.");
+        } else {
+          setError(true);
+          setErrorMessage("팀 생성에 실패했습니다.");
+        }
       }
     } catch (error) {
       console.error("팀 생성 중 오류 발생:", error);
@@ -141,20 +157,39 @@ export function useTeams() {
 
   // 팀원 초대 기능
   const handleInvite = async () => {
-    if (!inviteInput.trim()) return;
+    setInviteError(false);
+    setInviteErrorMessage("");
+
+    if (!inviteInput.trim()) {
+      setInviteError(true);
+      setInviteErrorMessage("사용자 ID를 입력해주세요.");
+      return;
+    }
+
     try {
       const response = await axios.post(`/teams/${inviteTeamId}/members`, {
         user_id: inviteInput.trim(),
       });
       if (response.status === 201) {
-        //setInvitedMembers([...invitedMembers, response.data]);
         setInviteInput("");
         console.log("초대 성공");
       } else {
-        console.error("초대에 실패했습니다.");
+        const errorCode = response.data?.errorCode;
+
+        if (errorCode === "te-002") {
+          setInviteError(true);
+          setInviteErrorMessage("이미 초대한 팀원입니다.");
+        } else if (errorCode === "te-003") {
+          setInviteError(true);
+          setInviteErrorMessage("존재하지 않는 사용자입니다.");
+        } else {
+          setInviteError(true);
+          setInviteErrorMessage("초대에 실패했습니다.");
+        }
       }
     } catch (e) {
-      console.error("초대 중 오류가 발생했습니다.");
+      setInviteError(true);
+      setInviteErrorMessage("초대 중 오류가 발생했습니다.");
     }
   };
 
@@ -164,6 +199,8 @@ export function useTeams() {
     setInviteInput("");
     setInviteTeamId(null);
     setInvitedMembers([]);
+    setInviteError(false);
+    setInviteErrorMessage("");
   };
 
   // 팀원 삭제 기능
@@ -210,5 +247,10 @@ export function useTeams() {
     handleInvite,
     handleInviteModalClose,
     handleRemoveMember,
+    // 에러 관련
+    error,
+    errorMessage,
+    inviteError,
+    inviteErrorMessage,
   };
 }

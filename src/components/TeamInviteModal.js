@@ -10,6 +10,8 @@ function TeamInviteModal({
   setInviteInput,
   invitedMembers,
   onRemoveMember,
+  error,
+  errorMessage,
 }) {
   if (!open) return null;
 
@@ -20,13 +22,18 @@ function TeamInviteModal({
           <div className="modal-invite-content">
             <div className="modal-title">팀원 초대하기</div>
             <div className="modal-invite-input-row">
-              <input
-                type="text"
-                value={inviteInput}
-                onChange={(e) => setInviteInput(e.target.value)}
-                placeholder="초대할 팀원의 아이디를 입력해주세요."
-                className="modal-invite-input text-field-placeholder"
-              />
+              <div className="modal-input-group" style={{ flex: 1 }}>
+                <input
+                  type="text"
+                  value={inviteInput}
+                  onChange={(e) => setInviteInput(e.target.value)}
+                  placeholder="초대할 팀원의 아이디를 입력해주세요."
+                  className={`modal-invite-input text-field-placeholder${
+                    error ? " error" : ""
+                  }`}
+                />
+                {error && <p className="error-message">{errorMessage}</p>}
+              </div>
               <button className="btn-gray-filled" onClick={onInvite}>
                 초대
               </button>
