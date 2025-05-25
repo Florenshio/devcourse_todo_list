@@ -6,35 +6,12 @@ import api from "../api/axios";
 function LoginForm() {
   const [user_id, setUserId] = useState("");
   const [password, setPassword] = useState("");
-  const { error, setError, handleLogin } = useAuth();
+  const { error, errorMessage, setError, handleLogin } = useAuth();
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    try {
-      console.log("로그인 시도:", { user_id, password });
-      const response = await api.post("/auth/login", {
-        user_id,
-        password,
-      });
-
-      console.log("서버 응답:", response.data);
-
-      if (response.status === 200) {
-        setError(false);
-        // JWT 토큰은 쿠키에 자동으로 저장됨
-        alert("로그인 성공!");
-        navigate("/todo"); // 로그인 성공 후 todo 페이지로 이동
-      } else {
-        setError(true);
-        alert("로그인 실패: " + response.data.message);
-      }
-    } catch (error) {
-      console.error("로그인 에러:", error);
-      console.error("에러 상세:", error.response?.data);
-      setError(true);
-    }
+    await handleLogin(user_id, password);
   };
 
   const handleSignupClick = () => {
@@ -67,9 +44,7 @@ function LoginForm() {
               error ? " error" : ""
             }`}
           />
-          {error && (
-            <p className="error-message">아이디와 비밀번호를 확인해주세요</p>
-          )}
+          {error && <p className="error-message">{errorMessage}</p>}
           <button className="btn-gray-filled login-button" type="submit">
             로그인
           </button>
