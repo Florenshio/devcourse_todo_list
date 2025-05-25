@@ -19,18 +19,31 @@ export function useAuth() {
 
       if (response.status === 200) {
         setError(false);
+        setErrorMessage("");
         console.log("로그인 성공!");
         navigate("/todo");
         return true;
       } else {
-        setError(true);
-        console.error("로그인 실패: " + response.data.message);
+        const errorCode = response.data?.errorCode;
+
+        if (errorCode === "a-001") {
+          setError(true);
+          setErrorMessage("존재하지 않는 아이디입니다.");
+        } else if (errorCode === "a-002") {
+          setError(true);
+          setErrorMessage("비밀번호가 일치하지 않습니다.");
+        } else {
+          setError(true);
+          setErrorMessage("로그인에 실패했습니다.");
+          console.error("로그인 실패: " + response.data.message);
+        }
         return false;
       }
     } catch (error) {
       console.error("로그인 에러:", error);
       console.error("에러 상세:", error.response?.data);
       setError(true);
+      setErrorMessage("로그인 중 오류가 발생했습니다.");
       return false;
     }
   };
