@@ -59,13 +59,6 @@
   object-fit: contain;
 }
 
-.btn-gray-outlined {
-  padding: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
 .delete-icon {
   width: 16px;
   height: 16px;
