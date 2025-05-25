@@ -138,7 +138,18 @@ export function useTeams() {
     try {
       const response = await axios.get(`/teams/${teamId}`);
       if (response.status === 200) {
-        setInvitedMembers(response.data);
+        // 서버 응답 구조 확인 및 배열 추출
+        if (response.data && Array.isArray(response.data.members)) {
+          // members 배열이 있는 경우
+          setInvitedMembers(response.data.members);
+        } else if (Array.isArray(response.data)) {
+          // 응답 자체가 배열인 경우
+          setInvitedMembers(response.data);
+        } else {
+          // 둘 다 아닌 경우 빈 배열로 초기화
+          console.warn("팀원 데이터가 예상 형식이 아닙니다:", response.data);
+          setInvitedMembers([]);
+        }
         console.log("팀원 목록 조회 성공");
       } else {
         setInvitedMembers([]);
@@ -146,6 +157,7 @@ export function useTeams() {
       }
     } catch (e) {
       setInvitedMembers([]);
+      console.error("팀원 목록 조회 중 오류 발생:", e);
     }
   };
 
