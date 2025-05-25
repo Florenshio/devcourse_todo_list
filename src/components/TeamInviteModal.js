@@ -21,8 +21,8 @@ function TeamInviteModal({
         <div className="modal-content">
           <div className="modal-invite-content">
             <div className="modal-title">팀원 초대하기</div>
-            <div className="modal-invite-input-row">
-              <div className="modal-input-group" style={{ flex: 1 }}>
+            <div className="modal-invite-input-group">
+              <div className="modal-invite-input-row">
                 <input
                   type="text"
                   value={inviteInput}
@@ -32,11 +32,11 @@ function TeamInviteModal({
                     error ? " error" : ""
                   }`}
                 />
-                {error && <p className="error-message">{errorMessage}</p>}
+                <button className="btn-gray-filled" onClick={onInvite}>
+                  초대
+                </button>
               </div>
-              <button className="btn-gray-filled" onClick={onInvite}>
-                초대
-              </button>
+              {error && <p className="error-message">{errorMessage}</p>}
             </div>
             <div className="modal-invite-list">
               {invitedMembers.map((member, idx) => (

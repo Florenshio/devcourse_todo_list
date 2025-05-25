@@ -77,3 +77,10 @@
   align-items: center;
   justify-content: center;
 }
+
+.modal-invite-input-group {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  align-self: stretch;
+}
