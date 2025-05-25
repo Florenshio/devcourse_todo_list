@@ -218,6 +218,7 @@
   border-radius: var(--Corner-Extra-small, 4px);
   border: 1px solid #000;
   background: #fff;
+  z-index: 100;
 }
 
 .todo-menu-popup-buttons {
