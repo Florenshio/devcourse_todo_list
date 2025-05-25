@@ -1,11 +1,11 @@
-import { Body, Controller, Delete, Get, Param, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpCode, Param, Post, UseGuards } from '@nestjs/common';
 import { ApiBearerAuth, ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { CreateTeamDto } from './dto/create-team.dto';
 import { AddTeamMemberDto } from './dto/add-team-member.dto';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { GetUser } from '../auth/decorators/get-user.decorator';
 import { TeamService } from './team/team.service';
-import { JwtPayload } from 'src/common/interface/jwt-payload.interface';
+import { JwtPayload } from '../common/interface/jwt-payload.interface';
 
 @ApiTags('teams')
 @Controller('teams')
@@ -88,7 +88,7 @@ export class TeamsController {
     status: 204,
     description: '팀 삭제 성공',
   })
-  // @HttpCode(204)
+  @HttpCode(204)
   @Delete(':team_id')
   async removeTeam(@Param('team_id') team_id: number, @GetUser() user: JwtPayload) {
     await this.teamService.removeTeam(team_id, user);
@@ -117,6 +117,26 @@ export class TeamsController {
     return await this.teamService.addTeamMember(team_id, addTeamMemberDto, user);
   }
 
+  @ApiOperation({ summary: '팀원 조회', description: '특정 팀의 멤버 조회' })
+  @ApiParam({ name: 'team_id', description: '팀 ID' })
+  @ApiResponse({
+    status: 200,
+    description: '팀원 조회 성공',
+    schema: {
+      example: [
+        {
+          id: 1,
+          team_id: 1,
+          user_id: 2,
+        },
+      ],
+    },
+  })
+  @Get(':team_id/members')
+  async getTeamMembers(@Param('team_id') team_id: number, @GetUser() user: JwtPayload) {
+    return await this.teamService.getTeamMembers(team_id, user);
+  }
+
   @ApiOperation({ summary: '팀원 삭제', description: '팀에서 멤버 제거' })
   @ApiParam({ name: 'team_id', description: '팀 ID' })
   @ApiParam({ name: 'user_id', description: '사용자 ID' })
@@ -124,6 +144,7 @@ export class TeamsController {
     status: 204,
     description: '팀원 삭제 성공',
   })
+  @HttpCode(204)
   @Delete(':team_id/members/:user_id')
   async removeTeamMember(
     @Param('team_id') team_id: number,

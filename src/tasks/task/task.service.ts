@@ -3,10 +3,10 @@ import { CreateTaskDto } from '../dto/create-task.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Task, TaskStatus } from '../entities/task.entity';
-import { JwtPayload } from 'src/common/interface/jwt-payload.interface';
+import { JwtPayload } from '../../common/interface/jwt-payload.interface';
 import { UpdateTaskStatusDto } from '../dto/update-task-status.dto';
 import { UpdateTaskDto } from '../dto/update-task.dto';
-import { TeamMember } from 'src/teams/entities/team-member.entity';
+import { TeamMember } from '../../teams/entities/team-member.entity';
 
 @Injectable()
 export class TaskService {

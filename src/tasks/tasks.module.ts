@@ -4,7 +4,7 @@ import { Task } from './entities/task.entity';
 import { TasksController } from './tasks.controller';
 import { TaskService } from './task/task.service';
 import { AuthModule } from '../auth/auth.module';
-import { TeamMember } from 'src/teams/entities/team-member.entity';
+import { TeamMember } from '../teams/entities/team-member.entity';
 
 @Module({
     imports: [

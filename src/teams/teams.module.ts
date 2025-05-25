@@ -5,11 +5,12 @@ import { TeamMember } from './entities/team-member.entity';
 import { TeamService } from './team/team.service';
 import { AuthModule } from '../auth/auth.module';
 import { TeamsController } from './teams.controller';
-import { User } from 'src/users/entities/user.entity';
+import { User } from '../users/entities/user.entity';
+import { Task } from '../tasks/entities/task.entity';
 
 @Module({
     imports: [
-        TypeOrmModule.forFeature([Team, TeamMember, User]),
+        TypeOrmModule.forFeature([Team, TeamMember, User, Task]),
         AuthModule
     ],
     controllers: [TeamsController],

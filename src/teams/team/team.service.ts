@@ -3,12 +3,13 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Team } from '../entities/team.entity';
 import { Repository } from 'typeorm';
 import { CreateTeamDto } from '../dto/create-team.dto';
-import { JwtPayload } from 'src/common/interface/jwt-payload.interface';
+import { JwtPayload } from '../../common/interface/jwt-payload.interface';
 import { TeamMember } from '../entities/team-member.entity';
 import { AddTeamMemberDto } from '../dto/add-team-member.dto';
-import { AppException } from 'src/common/exceptions/app.exception';
-import { ErrorCode } from 'src/common/constants/error-codes';
-import { User } from 'src/users/entities/user.entity';
+import { AppException } from '../../common/exceptions/app.exception';
+import { ErrorCode } from '../../common/constants/error-codes';
+import { User } from '../../users/entities/user.entity';
+import { Task } from '../../tasks/entities/task.entity';
 
 @Injectable()
 export class TeamService {
@@ -21,7 +22,10 @@ export class TeamService {
         private teamMemberRepository: Repository<TeamMember>,
 
         @InjectRepository(User)
-        private userRepository: Repository<User>
+        private userRepository: Repository<User>,
+
+        @InjectRepository(Task)
+        private taskRepository: Repository<Task>
     ) {};
 
     /* 팀 생성 */
@@ -98,8 +102,16 @@ export class TeamService {
 
     /* 팀 삭제 */
     async removeTeam(team_id: number, user: JwtPayload) {
-        const team = await this.teamRepository.findOne(
-            { where: { id: team_id, created_by: user.id } });
+        const team = await this.teamRepository.find({
+            where: { id: team_id},
+            relations: ['members']
+        });
+
+        const teamMembers = team.map(t => t.members.map(m => m.user_id));
+
+        if (!teamMembers[0].includes(user.id)) {
+            throw new Error('소속된 팀이 아닙니다.');
+        }
 
         if (!team) {
             throw new Error('팀 ID가 존재하지 않습니다.');
@@ -107,6 +119,9 @@ export class TeamService {
 
         // 팀 멤버를 먼저 삭제
         await this.teamMemberRepository.delete({ team_id });
+
+        // 해당 팀의 할 일을 삭제
+        await this.taskRepository.delete({ team_id });
 
         return await this.teamRepository.remove(team);
     }
@@ -146,6 +161,24 @@ export class TeamService {
         const newTeamMember = await this.teamMemberRepository.create(teamMemberData);
 
         return await this.teamMemberRepository.save(newTeamMember);
+    }
+
+    /* 팀원 조회 */
+    async getTeamMembers(team_id: number, user: JwtPayload) {
+        // 사용자가 속한 팀인지 확인
+        const team = await this.teamRepository.find({
+            where: { id: team_id },
+            relations: ['members']
+        });
+        const teamMembers = team.map(t => t.members.map(m => m.user_id));
+
+        if (!teamMembers[0].includes(user.id)) {
+            throw new Error('소속된 팀이 아닙니다.');
+        }
+
+        return await this.teamMemberRepository.find({
+            where: { team_id }
+        });
     }
 
     /* 팀원 삭제 */

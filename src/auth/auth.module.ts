@@ -12,7 +12,7 @@ import { JwtAuthGuard } from './guards/jwt-auth.guard';
     UsersModule,
     PassportModule,
     JwtModule.register({
-      secret: process.env.JWT_SECRET ?? 'secretKey', // 환경 변수 사용 권장
+      secret: process.env.JWT_SECRET ?? 'devcoursetodolistsecretkey', // 환경 변수 사용 권장
       signOptions: { expiresIn: '1h' },
     }),
   ],
