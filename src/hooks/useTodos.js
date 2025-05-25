@@ -1,33 +1,33 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
+import axios from "../api/axios";
 
 export function useTodos(selectedTeamId) {
   // 백엔드 연동시 아래 빈 배열로 초기화
-  //  const [todos, setTodos] = useState([]);
-  const [todos, setTodos] = useState([
-    {
-      id: 1,
-      title: "개인 할일 1",
-      status: "todo",
-    },
-    {
-      id: 2,
-      title: "개인 할일 2",
-      status: "done",
-    },
-    {
-      id: 3,
-      title: "A팀 할일 1",
-      status: "todo",
-      team_id: 1,
-    },
-    {
-      id: 4,
-      title: "A팀 할일 2",
-      status: "done",
-      team_id: 1,
-    },
-  ]);
+  const [todos, setTodos] = useState([]);
+  // const [todos, setTodos] = useState([
+  //   {
+  //     id: 1,
+  //     title: "개인 할일 1",
+  //     status: "todo",
+  //   },
+  //   {
+  //     id: 2,
+  //     title: "개인 할일 2",
+  //     status: "done",
+  //   },
+  //   {
+  //     id: 3,
+  //     title: "A팀 할일 1",
+  //     status: "todo",
+  //     team_id: 1,
+  //   },
+  //   {
+  //     id: 4,
+  //     title: "A팀 할일 2",
+  //     status: "done",
+  //     team_id: 1,
+  //   },
+  // ]);
   const [editId, setEditId] = useState(null);
   const [editInput, setEditInput] = useState("");
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -40,7 +40,7 @@ export function useTodos(selectedTeamId) {
         selectedTeamId === null
           ? { team_id: null }
           : { team_id: selectedTeamId };
-      const response = await axios.get("/api/tasks", { params });
+      const response = await axios.get("/tasks", { params });
       if (response.status === 200) {
         setTodos(response.data);
         console.log("할 일 목록 조회 성공");
@@ -63,7 +63,7 @@ export function useTodos(selectedTeamId) {
     if (!todoInput.trim()) return;
 
     try {
-      const response = await axios.post("/api/tasks", {
+      const response = await axios.post("/tasks", {
         title: todoInput,
         team_id: selectedTeamId || null,
       });
@@ -88,7 +88,7 @@ export function useTodos(selectedTeamId) {
       const todo = todos.find((t) => t.id === id);
       const newStatus = todo.status === "todo" ? "done" : "todo";
 
-      const response = await axios.patch(`/api/tasks/${id}/status`, {
+      const response = await axios.patch(`/tasks/${id}/status`, {
         status: newStatus,
       });
 
@@ -126,7 +126,7 @@ export function useTodos(selectedTeamId) {
     }
 
     try {
-      const response = await axios.patch(`/api/tasks/${id}`, {
+      const response = await axios.put(`/tasks/${id}`, {
         title: editInput,
       });
 
@@ -158,7 +158,7 @@ export function useTodos(selectedTeamId) {
 
   const handleDeleteConfirm = async () => {
     try {
-      const response = await axios.delete(`/api/tasks/${deleteId}`);
+      const response = await axios.delete(`/tasks/${deleteId}`);
 
       if (response.status === 204) {
         const updatedTodos = todos.filter((todo) => todo.id !== deleteId);

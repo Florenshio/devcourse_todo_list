@@ -1,15 +1,15 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
+import axios from "../api/axios";
 
 export function useTeams() {
   // 백엔드 연동시 아래 빈 배열로 초기화
-  //  const [teams, setTeams] = useState([]);
-  const [teams, setTeams] = useState([
-    {
-      id: 1,
-      name: "A",
-    },
-  ]);
+  const [teams, setTeams] = useState([]);
+  // const [teams, setTeams] = useState([
+  //   {
+  //     id: 1,
+  //     name: "A",
+  //   },
+  // ]);
   const [selectedTeamId, setSelectedTeamId] = useState(null);
   const [showTeamModal, setShowTeamModal] = useState(false);
   const [teamName, setTeamName] = useState("");
@@ -34,7 +34,7 @@ export function useTeams() {
   // 팀 목록 가져오기
   const fetchTeams = async () => {
     try {
-      const response = await axios.get("/api/teams");
+      const response = await axios.get("/teams");
       if (response.status === 200) {
         setTeams(response.data);
         console.log("팀 목록 조회 성공");
@@ -57,7 +57,7 @@ export function useTeams() {
     }
 
     try {
-      const response = await axios.post("/api/teams", {
+      const response = await axios.post("/teams", {
         name: teamName,
       });
 
@@ -94,7 +94,7 @@ export function useTeams() {
 
   const handleTeamDeleteConfirm = async () => {
     try {
-      const response = await axios.delete(`/api/teams/${teamToDeleteId}`);
+      const response = await axios.delete(`/teams/${teamToDeleteId}`);
       if (response.status === 204) {
         await fetchTeams();
         console.log("팀 삭제 성공");
@@ -117,7 +117,7 @@ export function useTeams() {
   // 팀원 목록 불러오기
   const fetchTeamMembers = async (teamId) => {
     try {
-      const response = await axios.get(`/api/teams/${teamId}`);
+      const response = await axios.get(`/teams/${teamId}`);
       if (response.status === 200) {
         setInvitedMembers(response.data);
         console.log("팀원 목록 조회 성공");
@@ -141,7 +141,7 @@ export function useTeams() {
   const handleInvite = async () => {
     if (!inviteInput.trim()) return;
     try {
-      const response = await axios.post(`/api/teams/${inviteTeamId}/members`, {
+      const response = await axios.post(`/teams/${inviteTeamId}/members`, {
         user_id: inviteInput.trim(),
       });
       if (response.status === 201) {
@@ -168,7 +168,7 @@ export function useTeams() {
   const handleRemoveMember = async (user_id) => {
     try {
       const response = await axios.delete(
-        `/api/teams/${inviteTeamId}/members/${user_id}`
+        `/teams/${inviteTeamId}/members/${user_id}`
       );
       if (response.status === 204) {
         console.log("팀원 삭제 성공");

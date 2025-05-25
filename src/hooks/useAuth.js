@@ -10,7 +10,7 @@ export function useAuth() {
   const handleLogin = async (user_id, password) => {
     try {
       console.log("로그인 시도:", { user_id, password });
-      const response = await api.post("/api/auth/login", {
+      const response = await api.post("/auth/login", {
         user_id,
         password,
       });
@@ -61,7 +61,7 @@ export function useAuth() {
 
       console.log("회원가입 시도:", data);
 
-      const response = await api.post("/api/users/register", data);
+      const response = await api.post("/users/register", data);
 
       console.log("서버 응답:", response.data);
 
