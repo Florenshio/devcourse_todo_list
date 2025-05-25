@@ -3,13 +3,13 @@ import axios from "../api/axios";
 
 export function useTeams() {
   // 백엔드 연동시 아래 빈 배열로 초기화
-  // const [teams, setTeams] = useState([]);
-  const [teams, setTeams] = useState([
-    {
-      id: 1,
-      name: "A",
-    },
-  ]);
+  const [teams, setTeams] = useState([]);
+  // const [teams, setTeams] = useState([
+  //   {
+  //     id: 1,
+  //     name: "A",
+  //   },
+  // ]);
   const [selectedTeamId, setSelectedTeamId] = useState(null);
   const [showTeamModal, setShowTeamModal] = useState(false);
   const [teamName, setTeamName] = useState("");
@@ -23,16 +23,17 @@ export function useTeams() {
   // 팀 초대 모달 상태 및 초대 관련 상태
   const [showInviteModal, setShowInviteModal] = useState(false);
   const [inviteInput, setInviteInput] = useState("");
-  const [invitedMembers, setInvitedMembers] = useState([
-    {
-      team_id: 1,
-      user_id: "person01",
-    },
-    {
-      team_id: 1,
-      user_id: "person02",
-    },
-  ]);
+  const [invitedMembers, setInvitedMembers] = useState([]);
+  // const [invitedMembers, setInvitedMembers] = useState([
+  //   {
+  //     team_id: 1,
+  //     user_id: "person01",
+  //   },
+  //   {
+  //     team_id: 1,
+  //     user_id: "person02",
+  //   },
+  // ]);
   const [inviteTeamId, setInviteTeamId] = useState(null);
   const [inviteError, setInviteError] = useState(false);
   const [inviteErrorMessage, setInviteErrorMessage] = useState("");
