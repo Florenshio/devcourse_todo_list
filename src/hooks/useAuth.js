@@ -46,12 +46,6 @@ export function useAuth() {
       return false;
     }
 
-    if (password !== repassword) {
-      setError(true);
-      setErrorMessage("비밀번호가 일치하지 않습니다");
-      return false;
-    }
-
     try {
       const data = {
         user_id: userId,
@@ -72,8 +66,18 @@ export function useAuth() {
         navigate("/");
         return true;
       } else {
-        setError(true);
-        setErrorMessage(response.data.message || "회원가입에 실패했습니다.");
+        const errorCode = response.data?.errorCode;
+
+        if (errorCode === "u-001") {
+          setError(true);
+          setErrorMessage("비밀번호가 일치하지 않습니다.");
+        } else if (errorCode === "u-002") {
+          setError(true);
+          setErrorMessage("이미 존재하는 아이디입니다.");
+        } else {
+          setError(true);
+          setErrorMessage("회원가입에 실패했습니다.");
+        }
         return false;
       }
     } catch (error) {
