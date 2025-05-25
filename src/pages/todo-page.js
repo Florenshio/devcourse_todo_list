@@ -36,6 +36,7 @@ function TodoPage() {
     setInviteInput,
     invitedMembers,
     handleRemoveMember,
+    handleTeamInviteClick: inviteTeamMember,
   } = useTeams();
 
   const {
@@ -61,8 +62,9 @@ function TodoPage() {
     }
   };
 
-  const handleTeamInviteClick = () => {
+  const handleTeamInviteClick = (teamId) => {
     setShowInviteModal(true);
+    inviteTeamMember(teamId);
   };
 
   const handleInviteModalClose = () => {

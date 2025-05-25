@@ -3,31 +3,31 @@ import axios from "../api/axios";
 
 export function useTodos(selectedTeamId) {
   // 백엔드 연동시 아래 빈 배열로 초기화
-  const [todos, setTodos] = useState([]);
-  // const [todos, setTodos] = useState([
-  //   {
-  //     id: 1,
-  //     title: "개인 할일 1",
-  //     status: "todo",
-  //   },
-  //   {
-  //     id: 2,
-  //     title: "개인 할일 2",
-  //     status: "done",
-  //   },
-  //   {
-  //     id: 3,
-  //     title: "A팀 할일 1",
-  //     status: "todo",
-  //     team_id: 1,
-  //   },
-  //   {
-  //     id: 4,
-  //     title: "A팀 할일 2",
-  //     status: "done",
-  //     team_id: 1,
-  //   },
-  // ]);
+  // const [todos, setTodos] = useState([]);
+  const [todos, setTodos] = useState([
+    {
+      id: 1,
+      title: "개인 할일 1",
+      status: "todo",
+    },
+    {
+      id: 2,
+      title: "개인 할일 2",
+      status: "done",
+    },
+    {
+      id: 3,
+      title: "A팀 할일 1",
+      status: "todo",
+      team_id: 1,
+    },
+    {
+      id: 4,
+      title: "A팀 할일 2",
+      status: "done",
+      team_id: 1,
+    },
+  ]);
   const [editId, setEditId] = useState(null);
   const [editInput, setEditInput] = useState("");
   const [showDeleteModal, setShowDeleteModal] = useState(false);

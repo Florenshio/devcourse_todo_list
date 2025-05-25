@@ -47,7 +47,9 @@ function Sidebar({
             {openMenuId === team.id && (
               <div className="todo-menu-popup">
                 <div className="todo-menu-popup-buttons">
-                  <button onClick={onTeamInviteClick}>초대하기</button>
+                  <button onClick={() => onTeamInviteClick(team.id)}>
+                    초대하기
+                  </button>
                   <button onClick={() => onTeamDeleteClick(team.id)}>
                     삭제하기
                   </button>
