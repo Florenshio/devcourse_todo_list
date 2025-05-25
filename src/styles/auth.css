@@ -46,17 +46,6 @@
   align-self: stretch;
 }
 
-.error-message {
-  color: #ff4d4f;
-  font-size: 14px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: 150%;
-  text-align: left;
-  width: 100%;
-  margin: 4px 0;
-}
-
 .login-button {
   display: flex;
   padding: 8px 16px;
