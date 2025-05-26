@@ -1,7 +1,8 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import { ValidationPipe } from '@nestjs/common';
+import { CustomValidationPipe } from './common/pipes/custom-validation.pipe';
+import { AppExceptionFilter } from './common/filters/app-exception.filter';
 import * as cookieParser from 'cookie-parser';
 
 async function bootstrap() {
@@ -10,12 +11,11 @@ async function bootstrap() {
   // 쿠키 파서 미들웨어 등록
   app.use(cookieParser());
   
-  // Validation Pipe 설정
-  app.useGlobalPipes(new ValidationPipe({
-    whitelist: true,
-    forbidNonWhitelisted: true,
-    transform: true,
-  }));
+  // 커스텀 ValidationPipe 설정
+  app.useGlobalPipes(new CustomValidationPipe());
+
+  // 전역 예외 필터 설정
+  app.useGlobalFilters(new AppExceptionFilter());
   
   // CORS 설정
   app.enableCors({
@@ -34,7 +34,6 @@ async function bootstrap() {
     .addTag('users', '사용자 관리 API')
     .addTag('teams', '팀 관리 API')
     .addTag('tasks', '할 일 관리 API')
-    // .addTag('actions', '액션 로그 API')
     .addBearerAuth(
       {
         type: 'http',

@@ -15,7 +15,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
         }
       ]),
       ignoreExpiration: false, // 만료된 토큰 거부
-      secretOrKey: process.env.JWT_SECRET || 'devcoursetodolistsecretkey', // 환경 변수 사용 권장
+      secretOrKey: process.env.JWT_SECRET ?? 'secretKey', // 환경 변수 사용 권장
     });
   }
 

@@ -3,6 +3,8 @@ import { JwtService } from '@nestjs/jwt';
 import { UsersService } from '../users/user/user.service';
 import { LoginDto } from './dto/login.dto';
 import * as bcrypt from 'bcrypt';
+import { ErrorCode } from '../common/constants/error-codes';
+import { AppException } from '../common/exceptions/app.exception';
 
 @Injectable()
 export class AuthService {
@@ -11,19 +13,20 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
 
+  /* 로그인 */
   async login(loginDto: LoginDto) {
     const { user_id, password } = loginDto;
     
     // 사용자 찾기
     const user = await this.usersService.findUserId(user_id);
     if (!user) {
-      throw new UnauthorizedException('아이디 또는 비밀번호가 잘못되었습니다.');
+      throw new AppException(ErrorCode.USER_NOT_FOUND);
     }
     
     // 비밀번호 검증
     const isPasswordValid = await bcrypt.compare(password, user.password);
     if (!isPasswordValid) {
-      throw new UnauthorizedException('아이디 또는 비밀번호가 잘못되었습니다.');
+      throw new AppException(ErrorCode.INVALID_PASSWORD);
     }
     
     // JWT 토큰 생성

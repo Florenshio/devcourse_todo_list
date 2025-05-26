@@ -1,16 +1,16 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
-import { TeamsController } from './teams/teams.controller';
 import { AuthModule } from './auth/auth.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
-import { UsersModule } from './users/user/user.module';
+import { UsersModule } from './users/user.module';
 import { TasksModule } from './tasks/tasks.module';
+import { TeamsModule } from './teams/teams.module';
 
 @Module({
   imports: [
-    ConfigModule.forRoot(), // .env 파일 로드
+    ConfigModule.forRoot({
+        isGlobal: true,
+    }), // .env 파일 로드
     TypeOrmModule.forRoot({
       type: 'mysql',
       host: process.env.DATABASE_HOST,
@@ -23,11 +23,9 @@ import { TasksModule } from './tasks/tasks.module';
     }),
     UsersModule,
     TasksModule,
+    TeamsModule,
     AuthModule],
-  controllers: [
-    AppController,
-    TeamsController
-  ],
-  providers: [AppService],
+  controllers: [],
+  providers: [],
 })
 export class AppModule {}
