@@ -2,11 +2,7 @@ import { QueryFailedError } from 'typeorm';
 import { ErrorCode } from '../constants/error-codes';
 import { AppException } from '../exceptions/app.exception';
 
-/**
- * 데이터베이스 오류를 분석하여 적절한 AppException으로 변환합니다.
- * @param error 원본 데이터베이스 오류
- * @returns 적절한 AppException
- */
+// 데이터베이스 오류를 분석하여 적절한 AppException으로 변환
 export function handleDatabaseError(error: any): AppException {
   // QueryFailedError 처리
   if (error instanceof QueryFailedError) {
