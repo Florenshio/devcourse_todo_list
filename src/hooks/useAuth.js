@@ -40,7 +40,7 @@ export function useAuth() {
         return false;
       }
     } catch (error) {
-      const errorCode = response.data?.errorCode;
+      const errorCode = error.response?.data?.errorCode;
 
       if (errorCode === "a-001") {
         setError(true);
