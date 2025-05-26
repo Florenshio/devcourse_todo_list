@@ -8,7 +8,9 @@ import { TeamsModule } from './teams/teams.module';
 
 @Module({
   imports: [
-    ConfigModule.forRoot(), // .env 파일 로드
+    ConfigModule.forRoot({
+        isGlobal: true,
+    }), // .env 파일 로드
     TypeOrmModule.forRoot({
       type: 'mysql',
       host: process.env.DATABASE_HOST,
