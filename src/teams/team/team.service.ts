@@ -189,6 +189,25 @@ export class TeamService {
             throw new Error('소속된 팀이 아닙니다.');
         }
 
-        return await this.teamMemberRepository.delete({ team_id: team_id, user_id: user_id });
+        // 팀원 삭제
+        await this.teamMemberRepository.delete({ team_id: team_id, user_id: user_id });
+        
+        // 팀에 남은 멤버 확인
+        const remainingMembers = await this.teamMemberRepository.count({
+            where: { team_id }
+        });
+        
+        // 남은 멤버가 없으면 팀 삭제
+        if (remainingMembers === 0) {
+            // 해당 팀의 할 일을 삭제
+            await this.taskRepository.delete({ team_id });
+            
+            // 팀 삭제
+            await this.teamRepository.delete({ id: team_id });
+            
+            return { message: '마지막 멤버가 삭제되어 팀이 자동으로 삭제되었습니다.' };
+        }
+        
+        return { message: '팀원 삭제 성공' };
     }
 }
