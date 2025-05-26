@@ -20,12 +20,13 @@ export class MatchConstraint implements ValidatorConstraintInterface {
   }
 }
 
+// 속성 데코레이터 (Property Decorator), 데코레이터 팩토리 이용
 export function Match(property: string, validationOptions?: ValidationOptions) {
   return function (object: Object, propertyName: string) {
     registerDecorator({
       name: 'Match',
-      target: object.constructor,
-      propertyName: propertyName,
+      target: object.constructor, // object: 데코레이터가 정의된 클래스의 프로토타입 객체
+      propertyName: propertyName, // propertyName: 데코레이터가 적용된 속성 이름
       constraints: [property],
       options: validationOptions,
       validator: MatchConstraint,
