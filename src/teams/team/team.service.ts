@@ -54,33 +54,16 @@ export class TeamService {
 
     /* 팀 목록 조회 */
     async findAllTeams(user: JwtPayload) {
-        // 1. 사용자가 생성한 팀 찾기
-        const createdTeams = await this.teamRepository.find({ 
-            where: { created_by: user.id },
-            relations: ['members'] // 'members.user'
-        });
-        
-        // 2. 사용자가 멤버로 속한 팀 찾기
+        // 사용자가 멤버로 속한 모든 팀 찾기 (생성한 팀도 포함)
         const teamMembers = await this.teamMemberRepository.find({
             where: { user_id: user.id },
             relations: ['team', 'team.members']
         });
         
-        // 3. 멤버로 속한 팀들 추출
-        const memberTeams = teamMembers.map(member => member.team);
+        // 멤버로 속한 팀들 추출
+        const teams = teamMembers.map(member => member.team);
         
-        // 4. 중복 제거 (사용자가 생성했으면서 멤버로도 등록된 경우)
-        const allTeams = [...createdTeams];
-        
-        for (const team of memberTeams) {
-            // 이미 결과에 포함된 팀인지 확인
-            const isDuplicate = allTeams.some(t => t.id === team.id);
-            if (!isDuplicate) {
-                allTeams.push(team);
-            }
-        }
-        
-        return allTeams;
+        return teams;
     }
 
     /* 팀 ID로 조회 */
