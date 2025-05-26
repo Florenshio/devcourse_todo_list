@@ -9,7 +9,6 @@ export enum ErrorCode {
   // 인증 관련 오류 (a-xxx)
   USER_NOT_FOUND = 'a-001', // 존재하지 않는 아이디
   INVALID_PASSWORD = 'a-002', // 비밀번호 불일치
-  TOKEN_EXPIRED = 'a-003', // 토큰 만료 
 
   // 팀 관리 관련 오류 (te-xxx)
   TEAM_NAME_ALREADY_EXISTS = 'te-001', // 팀 생성시, 팀 이름이 이미 존재하는 경우
@@ -55,13 +54,6 @@ export const ERROR_DETAILS: Record<ErrorCode, ErrorDetails> = {
     statusCode: 400,
     message: '비밀번호가 일치하지 않습니다.',
     detail: '비밀번호와 비밀번호 확인이 일치하지 않습니다.'
-  },
-  
-  // 인증 관련 오류
-  [ErrorCode.TOKEN_EXPIRED]: {
-    statusCode: 401,
-    message: '만료된 토큰입니다.',
-    detail: '다시 로그인해주세요.'
   },
   
   // 팀 관련 오류
