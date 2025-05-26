@@ -24,19 +24,8 @@ export function useAuth() {
         navigate("/todo");
         return true;
       } else {
-        // const errorCode = response.data?.errorCode;
-
-        // if (errorCode === "a-001") {
-        //   setError(true);
-        //   setErrorMessage("존재하지 않는 아이디입니다.");
-        // } else if (errorCode === "a-002") {
-        //   setError(true);
-        //   setErrorMessage("비밀번호가 일치하지 않습니다.");
-        // } else {
-        //   setError(true);
         setErrorMessage("로그인에 실패했습니다.");
         console.error("로그인 실패: " + response.data.message);
-        // }
         return false;
       }
     } catch (error) {
@@ -90,25 +79,26 @@ export function useAuth() {
         navigate("/");
         return true;
       } else {
-        const errorCode = response.data?.errorCode;
-
-        if (errorCode === "u-001") {
-          setError(true);
-          setErrorMessage("비밀번호가 일치하지 않습니다.");
-        } else if (errorCode === "u-002") {
-          setError(true);
-          setErrorMessage("이미 존재하는 아이디입니다.");
-        } else {
-          setError(true);
-          setErrorMessage("회원가입에 실패했습니다.");
-        }
+        setError(true);
+        setErrorMessage("회원가입에 실패했습니다.");
         return false;
       }
     } catch (error) {
-      console.error("회원가입 에러:", error);
-      console.error("에러 상세:", error.response?.data);
-      setError(true);
-      setErrorMessage("회원가입 중 오류가 발생했습니다.");
+      const errorCode = error.response?.data?.errorCode;
+
+      if (errorCode === "u-001") {
+        setError(true);
+        setErrorMessage("비밀번호가 일치하지 않습니다.");
+      } else if (errorCode === "u-002") {
+        setError(true);
+        setErrorMessage("이미 존재하는 아이디입니다.");
+      } else {
+        console.error("회원가입 에러:", error);
+        console.error("에러 상세:", error.response?.data);
+        setError(true);
+        setErrorMessage("회원가입 중 오류가 발생했습니다.");
+      }
+
       return false;
     }
   };
