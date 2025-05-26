@@ -1,0 +1,79 @@
+.modal-invite-content {
+  gap: 20px;
+}
+
+.modal-invite-content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 20px;
+  align-self: stretch;
+}
+
+.modal-invite-content button {
+  align-self: stretch;
+}
+
+.modal-invite-input-row {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  width: 100%;
+}
+
+.modal-invite-input {
+  flex: 1;
+  height: 40px;
+  font-size: 14px;
+  padding: 0 12px;
+  box-sizing: border-box;
+}
+
+.modal-invite-list {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  align-self: stretch;
+}
+
+.modal-invite-member {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  align-self: stretch;
+}
+
+.modal-invite-member-name {
+  color: #000;
+  font-family: Pretendard;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 150%; /* 24px */
+}
+
+.close-icon {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+}
+
+.delete-icon {
+  width: 16px;
+  height: 16px;
+  object-fit: contain;
+}
+
+.modal-invite-member-remove {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-invite-input-group {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  align-self: stretch;
+}

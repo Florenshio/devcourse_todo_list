@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "http://localhost:3000",
+  baseURL: "http://localhost:3003/api",
   withCredentials: true, // 쿠키를 주고받을 수 있도록 설정
   headers: {
     "Content-Type": "application/json",

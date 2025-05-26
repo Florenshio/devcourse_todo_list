@@ -1,0 +1,260 @@
+/* todo 페이지 레이아웃 */
+.todo-layout {
+  display: flex;
+  height: 1024px;
+  padding: 0px 98px 0px 142px;
+  justify-content: flex-end;
+  align-items: center;
+  background: #fff;
+}
+
+.todo-page {
+  display: flex;
+  width: 100%;
+  height: 1024px;
+  padding: 40px 24px 0px 24px;
+  align-items: flex-start;
+  gap: 32px;
+}
+
+.todo-sidebar {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  align-self: stretch;
+}
+
+.todo-menu {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  align-self: stretch;
+}
+
+.todo-menu-itm {
+  display: flex;
+  width: 240px;
+  padding: 8px 16px;
+  border: none;
+  border-radius: var(--Corner-Extra-small, 4px);
+  background: #e2e8f0;
+  color: #0f172a;
+  font-family: Pretendard;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 150%;
+  cursor: pointer;
+}
+
+.todo-sidebar-btn {
+  display: flex;
+  padding: 8px 16px;
+  width: 100%;
+}
+
+.todo-divider {
+  width: 1px;
+  height: 1024px;
+  background: #e2e8f0;
+}
+
+.todo-main {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  flex: 1 0 0;
+}
+
+.todo-input-row {
+  display: flex;
+  gap: 20px;
+}
+
+.todo-input {
+  flex: 1 0 0;
+}
+
+.todo-group {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  flex-direction: column;
+  gap: 40px;
+  align-self: stretch;
+}
+
+.todo-list,
+.done-list {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  align-self: stretch;
+}
+
+.todo-main-title {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #0f172a;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 150%;
+}
+
+.todo-item-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  align-self: stretch;
+}
+
+.todo-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  align-self: stretch;
+  width: 100%;
+}
+
+.todo-item-normal,
+.todo-item-edit {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  gap: 10px;
+}
+
+.todo-checkfield {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.todo-item input[type="checkbox"] {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 6px;
+  border: 2px solid #475569;
+  cursor: pointer;
+}
+
+.todo-item input[type="checkbox"]:checked {
+  background-color: #475569;
+  border-color: #475569;
+}
+
+.todo-item input[type="checkbox"]:checked::after {
+  fill: #475569;
+  stroke-width: 2px;
+  stroke: #475569;
+}
+
+.todo-item-text {
+  color: #0f172a;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+}
+
+.todo-item-text.done {
+  color: #475569;
+}
+
+.todo-btn {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.todo-edit-input {
+  flex: 1;
+}
+
+.todo-empty-text {
+  color: #94a3b8;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 150%;
+}
+
+.done-empty-text {
+  color: #94a3b8;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 150%;
+}
+
+.todo-btn {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.team-menu-row {
+  position: relative;
+  width: 240px;
+  display: flex;
+  align-items: flex-start;
+}
+
+.todo-menu-popup {
+  display: flex;
+  padding: 12px 87px 12px 12px;
+  align-items: center;
+  position: absolute;
+  right: 0;
+  top: 100%;
+  border-radius: var(--Corner-Extra-small, 4px);
+  border: 1px solid #000;
+  background: #fff;
+  z-index: 100;
+}
+
+.todo-menu-popup-buttons {
+  display: flex;
+  width: 56px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.todo-menu-popup-buttons button {
+  all: unset;
+  display: flex;
+  padding: 4px 0px;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  align-self: stretch;
+  color: #0f172a;
+  text-align: center;
+  font-family: Pretendard;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  cursor: pointer;
+}
+
+.todo-menu-more-btn {
+  display: flex;
+  position: absolute;
+  right: 0;
+  top: 0;
+  height: 100%;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 20px;
+}
