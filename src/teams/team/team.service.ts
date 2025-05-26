@@ -90,14 +90,14 @@ export class TeamService {
             relations: ['members']
         });
 
+        if (!team) {
+            throw new Error('팀 ID가 존재하지 않습니다.');
+        }
+
         const teamMembers = team.map(t => t.members.map(m => m.user_id));
 
         if (!teamMembers[0].includes(user.id)) {
             throw new Error('소속된 팀이 아닙니다.');
-        }
-
-        if (!team) {
-            throw new Error('팀 ID가 존재하지 않습니다.');
         }
 
         // 팀 멤버를 먼저 삭제
