@@ -48,18 +48,18 @@ npm install
 
 ```
 # 데이터베이스 설정
-DATABASE_HOST=shortline.proxy.rlwy.net
-DATABASE_PORT=30107
-DATABASE_USER=root
-DATABASE_PASSWORD=oVIQPVcrTVfelUnmMSyEQXctbUzcPiff
-DATABASE_NAME=railway
+DATABASE_HOST=your_database_host
+DATABASE_PORT=your_database_port
+DATABASE_USER=your_database_user
+DATABASE_PASSWORD=your_database_password
+DATABASE_NAME=your_database_name
 
 # JWT 설정
 JWT_SECRET=your_jwt_secret_key
-JWT_EXPIRATION=3600s
+JWT_EXPIRATION=your_jwt_expiration
 
 # 서버 설정
-PORT=3003
+PORT=your_port
 ```
 
 ### 실행
@@ -82,7 +82,7 @@ npm run start:prod
 애플리케이션 실행 후 브라우저에서 다음 URL에 접속하여 API 문서를 확인할 수 있습니다:
 
 ```
-http://localhost:3003/api-docs
+http://localhost:your_port/api-docs
 ```
 
 ## 프로젝트 구조
