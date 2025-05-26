@@ -18,7 +18,7 @@ export class UsersController {
     schema: {
       example: {
         id: 1,
-        username: '사용자이름',
+        user_id: '사용자이름',
         created_at: '2025-05-13T11:15:15+09:00',
       },
     },
