@@ -78,18 +78,19 @@ export function useTeams() {
         setShowTeamModal(false);
         setTeamName("");
       } else {
-        const errorCode = response.data?.errorCode;
-
-        if (errorCode === "te-001") {
-          setError(true);
-          setErrorMessage("이미 존재하는 팀 이름입니다.");
-        } else {
-          setError(true);
-          setErrorMessage("팀 생성에 실패했습니다.");
-        }
+        setError(true);
+        setErrorMessage("팀 생성에 실패했습니다.");
       }
     } catch (error) {
-      console.error("팀 생성 중 오류 발생:", error);
+      const errorCode = error.response?.data?.errorCode;
+
+      if (errorCode === "te-001") {
+        setError(true);
+        setErrorMessage("이미 존재하는 팀 이름입니다.");
+      } else {
+        setError(true);
+        console.error("팀 생성 중 오류 발생:", error);
+      }
     }
   };
 
@@ -138,15 +139,11 @@ export function useTeams() {
     try {
       const response = await axios.get(`/teams/${teamId}/members`);
       if (response.status === 200) {
-        // 서버 응답 구조 확인 및 배열 추출
         if (response.data && Array.isArray(response.data.members)) {
-          // members 배열이 있는 경우
           setInvitedMembers(response.data.members);
         } else if (Array.isArray(response.data)) {
-          // 응답 자체가 배열인 경우
           setInvitedMembers(response.data);
         } else {
-          // 둘 다 아닌 경우 빈 배열로 초기화
           console.warn("팀원 데이터가 예상 형식이 아닙니다:", response.data);
           setInvitedMembers([]);
         }
@@ -188,22 +185,21 @@ export function useTeams() {
         await fetchTeamMembers(inviteTeamId);
         console.log("초대 성공");
       } else {
-        const errorCode = response.data?.errorCode;
-
-        if (errorCode === "te-002") {
-          setInviteError(true);
-          setInviteErrorMessage("이미 초대한 팀원입니다.");
-        } else if (errorCode === "te-003") {
-          setInviteError(true);
-          setInviteErrorMessage("존재하지 않는 사용자입니다.");
-        } else {
-          setInviteError(true);
-          setInviteErrorMessage("초대에 실패했습니다.");
-        }
+        setInviteError(true);
+        setInviteErrorMessage("초대에 실패했습니다.");
       }
-    } catch (e) {
-      setInviteError(true);
-      setInviteErrorMessage("초대 중 오류가 발생했습니다.");
+    } catch (error) {
+      const errorCode = error.response?.data?.errorCode;
+      if (errorCode === "te-002") {
+        setInviteError(true);
+        setInviteErrorMessage("이미 초대한 팀원입니다.");
+      } else if (errorCode === "te-003") {
+        setInviteError(true);
+        setInviteErrorMessage("존재하지 않는 사용자입니다.");
+      } else {
+        setInviteError(true);
+        setInviteErrorMessage("초대 중 오류가 발생했습니다.");
+      }
     }
   };
 
