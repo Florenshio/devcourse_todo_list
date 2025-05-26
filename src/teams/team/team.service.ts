@@ -176,9 +176,21 @@ export class TeamService {
             throw new Error('소속된 팀이 아닙니다.');
         }
 
-        return await this.teamMemberRepository.find({
-            where: { team_id }
+        const members = await this.teamMemberRepository.find({
+            where: { team_id },
+            relations: ['user']
         });
+
+        // user 비밀번호와 생성 시기 정보는 제외해서 응답하도록
+        return members.map(member => ({
+            id: member.id,
+            team_id: member.team_id,
+            user_id: member.user_id,
+            user: member.user ? {
+                id: member.user.id,
+                username: member.user.user_id
+            } : null
+        }));
     }
 
     /* 팀원 삭제 */

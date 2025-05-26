@@ -128,6 +128,10 @@ export class TeamsController {
           id: 1,
           team_id: 1,
           user_id: 2,
+          user: {
+            id: 2,
+            username: '사용자이름',
+          },
         },
       ],
     },
