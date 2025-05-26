@@ -42,7 +42,7 @@ function TeamInviteModal({
               {invitedMembers.map((member, idx) => (
                 <div key={idx} className="modal-invite-member">
                   <div className="modal-invite-member-name">
-                    {member.user_id}
+                    {member.user.username}
                   </div>
                   <div
                     className="modal-invite-member-remove"
